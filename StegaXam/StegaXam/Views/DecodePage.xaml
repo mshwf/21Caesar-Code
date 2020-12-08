@@ -1,20 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="StegaXam.Views.EncodePage"
-             xmlns:vm="clr-namespace:StegaXam.ViewModels"
-             Title="{Binding Title}">
-
-    <ContentPage.BindingContext>
-        <vm:EncodeViewModel />
-    </ContentPage.BindingContext>
-
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <Color x:Key="Accent">#96d1ff</Color>
-        </ResourceDictionary>
-    </ContentPage.Resources>
-
+             x:Class="StegaXam.Views.DecodePage"
+             Title="{Binding Title}"
+             xmlns:local="clr-namespace:StegaXam.ViewModels"  
+             xmlns:model="clr-namespace:StegaXam.Models"  
+             x:Name="BrowseItemsPage">
     <ScrollView>
         <Grid>
             <Grid.RowDefinitions>
@@ -33,8 +24,8 @@
             <Button Text="Pick Photo" Grid.Row="2" Background="Green"
                     Clicked="OnPickPhotoButtonClicked" />
 
-            <Button Grid.Row="3" Text="Hide" Clicked="HideClick" Background="red"/>
-            <Button Grid.Row="4" Text="Save" Clicked="SaveClicked" Background="Blue"/>
+            <Button Grid.Row="3" Text="Read" Clicked="ReadClick" Background="red"/>
+            <Label Grid.Row="4" x:Name="lbText" TextColor="White" Background="Blue"/>
         </Grid>
     </ScrollView>
 </ContentPage>

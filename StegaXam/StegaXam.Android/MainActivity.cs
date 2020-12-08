@@ -1,14 +1,11 @@
-﻿using System;
-
-using Android.App;
+﻿using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.OS;
 using System.Threading.Tasks;
 using System.IO;
 using Android.Content;
+using Plugin.CurrentActivity;
 
 namespace StegaXam.Droid
 {
@@ -23,18 +20,20 @@ namespace StegaXam.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
-
+            Picture_Droid.Init(this);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
             Instance = this;
+            CrossCurrentActivity.Current.Init(this, savedInstanceState);
+
         }
 
         // Field, property, and method for Picture Picker
         public static readonly int PickImageId = 1000;
         public TaskCompletionSource<Stream> PickImageTaskCompletionSource { set; get; }
 
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 

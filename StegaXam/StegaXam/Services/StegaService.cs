@@ -22,14 +22,14 @@ namespace StegaXam.Services
             {
                 for (int j = 0; j < image.Height; j++)
                 {
-                    Color pixel = image.GetPixel(i, j);
+                    ColorByte pixel = image.GetPixel(i, j);
                     if (currentChar < secret.Length)
                     {
                         int ch = secret[currentChar++];
-                        image.SetPixel(i, j, Color.FromRgb(pixel.R, pixel.G, ch));
+                        image.SetPixel(i, j, new ColorByte(pixel.R, pixel.G, ch));
                     }
                     if (i == image.Width - 1 && j == image.Height - 1)
-                        image.SetPixel(i, j, Color.FromRgb(pixel.R, pixel.G, secret.Length));
+                        image.SetPixel(i, j, new ColorByte(pixel.R, pixel.G, secret.Length));
                 }
             }
             Application.Current.MainPage.DisplayAlert("Success", "Image Saved Successfully", "OK");

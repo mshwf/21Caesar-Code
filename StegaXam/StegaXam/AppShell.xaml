@@ -31,16 +31,16 @@
 
     <TabBar>
         <ShellContent Title="Encode" Icon="icon_about.png" Route="EncodePage" ContentTemplate="{DataTemplate local:EncodePage}" />
-        <ShellContent Title="Decode" Icon="icon_feed.png" ContentTemplate="{DataTemplate local:ItemsPage}" />
+        <ShellContent Title="Decode" Icon="icon_feed.png" ContentTemplate="{DataTemplate local:DecodePage}" />
     </TabBar>
 
     <!--
         If you would like to navigate to this content you can do so by calling
         await Shell.Current.GoToAsync("//LoginPage");
     -->
-    <TabBar>
+    <!--<TabBar>
         <ShellContent Route="LoginPage" ContentTemplate="{DataTemplate local:LoginPage}" />
-    </TabBar>
+    </TabBar>-->
 
 
 </Shell>

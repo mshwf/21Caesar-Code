@@ -1,29 +1,53 @@
-﻿using Android.Graphics;
+﻿using Android.Content;
+using Android.Graphics;
+using Java.IO;
+using Java.Nio;
+using StegaXam.Droid;
+using StegaXam.Models;
 using System;
+using System.IO;
+using Xamarin.Forms;
+using Color = Android.Graphics.Color;
 
+[assembly: Dependency(typeof(StegImage))]
 namespace StegaXam.Droid
 {
-    class StegImage : Models.IStegImage
+    class StegImage : IStegImage
     {
-
-        public byte[] Raw { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int Width { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int Height { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int Width { get; private set; }
+        public int Height { get; private set; }
         Bitmap bitmap;
-        public Xamarin.Forms.Color GetPixel(int x, int y)
+        public ColorByte GetPixel(int x, int y)
         {
-            bitmap ??= BitmapFactory.DecodeByteArray(Raw, 0, Raw.Length);
             var pixel = bitmap.GetPixel(x, y);
-            var r = Color.GetRedComponent(pixel) / 255d;
-            var g = Color.GetGreenComponent(pixel) / 255d;
-            var b = Color.GetBlueComponent(pixel) / 255d;
-            return new Xamarin.Forms.Color(r, g, b);
+            var r = Color.GetRedComponent(pixel);
+            var g = Color.GetGreenComponent(pixel);
+            var b = Color.GetBlueComponent(pixel);
+            return new ColorByte(r, g, b);
         }
 
-        public void SetPixel(int x, int y, Xamarin.Forms.Color color)
+        public void SetPixel(int x, int y, ColorByte color)
         {
-            bitmap ??= BitmapFactory.DecodeByteArray(Raw, 0, Raw.Length);
-            bitmap.SetPixel(x, y, Color.Rgb((int)(255 * color.R), (int)(255 * color.G), (int)(255 * color.B)));
+            bitmap.SetPixel(x, y, Color.Rgb(color.R, color.G, color.B));
+        }
+        public void Init(byte[] raw)
+        {
+            bitmap = BitmapFactory.DecodeByteArray(raw, 0, raw.Length);
+            bitmap = bitmap.Copy(bitmap.GetConfig(), true);
+            Width = bitmap.Width;
+            Height = bitmap.Height;
+        }
+
+        public byte[] Save()
+        {
+            using var stream = new MemoryStream();
+            bitmap.Compress(Bitmap.CompressFormat.Png, 0, stream);
+            byte[] byteArray = stream.ToArray();
+            return byteArray;
+            //ByteBuffer byteBuffer = ByteBuffer.Allocate(bitmap.ByteCount);
+            //bitmap.CopyPixelsToBuffer(byteBuffer);
+            //byte[] bytes = byteBuffer.ToArray<byte>();
+            //return bytes;
         }
     }
 }

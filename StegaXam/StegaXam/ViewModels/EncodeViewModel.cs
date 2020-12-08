@@ -9,10 +9,7 @@ namespace StegaXam.ViewModels
     {
         public EncodeViewModel()
         {
-            Title = "About";
-            OpenWebCommand = new Command(async () => await Browser.OpenAsync("https://aka.ms/xamarin-quickstart"));
+            Title = "Encode";
         }
-
-        public ICommand OpenWebCommand { get; }
     }
 }

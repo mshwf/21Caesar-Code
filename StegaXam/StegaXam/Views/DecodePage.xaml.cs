@@ -1,17 +1,29 @@
 ﻿using StegaXam.Models;
 using StegaXam.Services;
+using StegaXam.ViewModels;
 using System;
 using System.IO;
 using Xamarin.Forms;
 
 namespace StegaXam.Views
 {
-    public partial class EncodePage : ContentPage
+    public partial class DecodePage : ContentPage
     {
-        public EncodePage()
+        DecodeViewModel _viewModel;
+
+        public DecodePage()
         {
             InitializeComponent();
+
+            BindingContext = _viewModel = new DecodeViewModel();
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            _viewModel.OnAppearing();
+        }
+
         byte[] bytes;
         private async void OnPickPhotoButtonClicked(object sender, EventArgs e)
         {
@@ -32,52 +44,38 @@ namespace StegaXam.Views
             (sender as Button).IsEnabled = true;
         }
 
-        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        private void ReadClick(object sender, EventArgs e)
         {
 
         }
-        string textToHide;
-        int currentChar = 0;
         private IStegImage steg;
+        bool _break = false;
 
-        private void HideClick(object sender, EventArgs e)
+        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
             steg = DependencyService.Get<IStegImage>();
             steg.Init(bytes);
 
-            textToHide = text.Text;
-
-            //W=4032, H=3024
-            bool _break = false;
-            for (int i = 0; i < steg.Width; i++)
-            {
-                for (int j = 0; j < steg.Height; j++)
-                {
-                    ColorByte pixel = steg.GetPixel(i, j);
-                    if (currentChar < textToHide.Length)
-                    {
-                        int ch = textToHide[currentChar++];
-                        steg.SetPixel(i, j, new ColorByte(pixel.R, pixel.G, ch));
-                    }
-                    else
-                    {
-                        _break = true;
-                        break;
-                    }
-                }
-                if (_break) break;
-            }
             int lastX = steg.Width - 1;
             int lastY = steg.Height - 1;
             ColorByte lastPixel = steg.GetPixel(lastX, lastY);
 
-            int length = textToHide.Length;
-            steg.SetPixel(lastX, lastY, new ColorByte(lastPixel.R, lastPixel.G, length));
-        }
-
-        private void SaveClicked(object sender, EventArgs e)
-        {
-            DependencyService.Get<IPicture>().SavePictureToDisk("ChartImage", steg.Save());
+            double txtLength = lastPixel.B;
+            string txt = "";
+            for (int i = 0; i < steg.Width; i++)
+            {
+                for (int j = 0; j < steg.Height; j++)
+                {
+                    if (txt.Length == txtLength)
+                    {
+                        _break = true;
+                        break;
+                    }
+                    txt += (char)steg.GetPixel(i, j).B;
+                }
+                if (_break) break;
+            }
+            lbText.Text = txt;
         }
     }
 }

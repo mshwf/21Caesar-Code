@@ -14,5 +14,8 @@
     <Compile Update="Views\EncodePage.xaml.cs">
       <DependentUpon>EncodePage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\DecodePage.xaml.cs">
+      <DependentUpon>DecodePage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>
