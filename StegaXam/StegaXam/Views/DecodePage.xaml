@@ -4,7 +4,8 @@
              x:Class="StegaXam.Views.DecodePage"
              Title="{Binding Title}"
              xmlns:local="clr-namespace:StegaXam.ViewModels"  
-             xmlns:model="clr-namespace:StegaXam.Models"  
+             xmlns:model="clr-namespace:StegaXam.Models" 
+             x:DataType="local:DecodeViewModel"
              x:Name="BrowseItemsPage">
     <ScrollView>
         <Grid>
@@ -15,17 +16,12 @@
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
-            <Image x:Name="image" Grid.Row="0">
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
-                </Image.GestureRecognizers>
-            </Image>
-            <Entry Grid.Row="1" x:Name="text" TextColor="Black" Text="Hello"/>
+            <Image x:Name="image" Grid.Row="0"/>
+
             <Button Text="Pick Photo" Grid.Row="2" Background="Green"
                     Clicked="OnPickPhotoButtonClicked" />
 
-            <Button Grid.Row="3" Text="Read" Clicked="ReadClick" Background="red"/>
-            <Label Grid.Row="4" x:Name="lbText" TextColor="White" Background="Blue"/>
+            <Button Grid.Row="3" Text="Read" Clicked="ReadHiddenText_Tapped" Background="red"/>
         </Grid>
     </ScrollView>
 </ContentPage>

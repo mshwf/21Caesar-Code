@@ -1,4 +1,5 @@
-﻿using StegaXam.Models;
+﻿using Steganography;
+using StegaXam.Models;
 using StegaXam.Services;
 using System;
 using System.IO;
@@ -12,12 +13,17 @@ namespace StegaXam.Views
         {
             InitializeComponent();
         }
-        byte[] bytes;
+        byte[] imageRaw;
         private async void OnPickPhotoButtonClicked(object sender, EventArgs e)
         {
             (sender as Button).IsEnabled = false;
 
             Stream stream = await DependencyService.Get<IPhotoPickerService>().GetImageStreamAsync();
+            if (stream == null)
+            {
+                (sender as Button).IsEnabled = true;
+                return;
+            }
             var memoryStream = new MemoryStream();
             await stream.CopyToAsync(memoryStream);
             if (stream != null)
@@ -26,28 +32,37 @@ namespace StegaXam.Views
                 using (var ms = new MemoryStream())
                 {
                     //await stream.CopyToAsync(ms);
-                    bytes = memoryStream.ToArray();
+                    imageRaw = memoryStream.ToArray();
                 }
             }
             (sender as Button).IsEnabled = true;
         }
 
-        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
-        {
-
-        }
         string textToHide;
         int currentChar = 0;
         private IStegImage steg;
 
-        private void HideClick(object sender, EventArgs e)
+        private async void HideClick(object sender, EventArgs e)
         {
-            steg = DependencyService.Get<IStegImage>();
-            steg.Init(bytes);
-
             textToHide = text.Text;
+            if (string.IsNullOrEmpty(textToHide) || imageRaw == null) return;
 
-            //W=4032, H=3024
+            string password = await DisplayPromptAsync("Password", "Enter a password to encrypt the message.");
+
+            if (string.IsNullOrEmpty(password))
+            {
+                await DisplayAlert(null, "A password is a required", "OK");
+                return;
+            }
+            textToHide = Crypto.EncryptStringAES(textToHide, password);
+            steg = DependencyService.Get<IStegImage>();
+            steg.Init(imageRaw);
+            if (steg.Width * steg.Height < textToHide.Length + 1)
+            {
+                await DisplayAlert(null, "The image is too small for the message, choose bigger one.", "OK");
+                return;
+            }
+
             bool _break = false;
             for (int i = 0; i < steg.Width; i++)
             {
@@ -71,13 +86,14 @@ namespace StegaXam.Views
             int lastY = steg.Height - 1;
             ColorByte lastPixel = steg.GetPixel(lastX, lastY);
 
-            int length = textToHide.Length;
-            steg.SetPixel(lastX, lastY, new ColorByte(lastPixel.R, lastPixel.G, length));
+            steg.SetPixel(lastX, lastY, new ColorByte(lastPixel.R, lastPixel.G, textToHide.Length));
         }
 
         private void SaveClicked(object sender, EventArgs e)
         {
+            if (steg == null) return;
             DependencyService.Get<IPicture>().SavePictureToDisk("ChartImage", steg.Save());
         }
+
     }
 }

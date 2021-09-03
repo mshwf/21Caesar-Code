@@ -12,7 +12,7 @@ namespace StegaXam
         public App()
         {
             InitializeComponent();
-            MainPage = new AppShell();
+            MainPage = new NavigationPage(new MainPage());
         }
 
         protected override void OnStart()

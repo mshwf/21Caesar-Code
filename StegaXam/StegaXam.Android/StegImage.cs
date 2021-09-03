@@ -1,10 +1,6 @@
-﻿using Android.Content;
-using Android.Graphics;
-using Java.IO;
-using Java.Nio;
+﻿using Android.Graphics;
 using StegaXam.Droid;
 using StegaXam.Models;
-using System;
 using System.IO;
 using Xamarin.Forms;
 using Color = Android.Graphics.Color;
@@ -32,6 +28,7 @@ namespace StegaXam.Droid
         }
         public void Init(byte[] raw)
         {
+            if (raw == null) return;
             bitmap = BitmapFactory.DecodeByteArray(raw, 0, raw.Length);
             bitmap = bitmap.Copy(bitmap.GetConfig(), true);
             Width = bitmap.Width;
@@ -44,10 +41,6 @@ namespace StegaXam.Droid
             bitmap.Compress(Bitmap.CompressFormat.Png, 0, stream);
             byte[] byteArray = stream.ToArray();
             return byteArray;
-            //ByteBuffer byteBuffer = ByteBuffer.Allocate(bitmap.ByteCount);
-            //bitmap.CopyPixelsToBuffer(byteBuffer);
-            //byte[] bytes = byteBuffer.ToArray<byte>();
-            //return bytes;
         }
     }
 }

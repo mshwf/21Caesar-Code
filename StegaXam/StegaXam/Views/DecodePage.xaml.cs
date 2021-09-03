@@ -1,8 +1,10 @@
-﻿using StegaXam.Models;
+﻿using Steganography;
+using StegaXam.Models;
 using StegaXam.Services;
 using StegaXam.ViewModels;
 using System;
 using System.IO;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace StegaXam.Views
@@ -24,12 +26,17 @@ namespace StegaXam.Views
             _viewModel.OnAppearing();
         }
 
-        byte[] bytes;
+        byte[] imageRaw;
         private async void OnPickPhotoButtonClicked(object sender, EventArgs e)
         {
             (sender as Button).IsEnabled = false;
 
             Stream stream = await DependencyService.Get<IPhotoPickerService>().GetImageStreamAsync();
+            if (stream == null)
+            {
+                (sender as Button).IsEnabled = true;
+                return;
+            }
             var memoryStream = new MemoryStream();
             await stream.CopyToAsync(memoryStream);
             if (stream != null)
@@ -38,7 +45,7 @@ namespace StegaXam.Views
                 using (var ms = new MemoryStream())
                 {
                     //await stream.CopyToAsync(ms);
-                    bytes = memoryStream.ToArray();
+                    imageRaw = memoryStream.ToArray();
                 }
             }
             (sender as Button).IsEnabled = true;
@@ -51,10 +58,11 @@ namespace StegaXam.Views
         private IStegImage steg;
         bool _break = false;
 
-        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        private async void ReadHiddenText_Tapped(object sender, EventArgs e)
         {
+            if (imageRaw == null) return;
             steg = DependencyService.Get<IStegImage>();
-            steg.Init(bytes);
+            steg.Init(imageRaw);
 
             int lastX = steg.Width - 1;
             int lastY = steg.Height - 1;
@@ -75,7 +83,27 @@ namespace StegaXam.Views
                 }
                 if (_break) break;
             }
-            lbText.Text = txt;
+
+            string password = await DisplayPromptAsync("Password required", null);
+            if (string.IsNullOrEmpty(password))
+            {
+                await DisplayAlert(null, "A password is a required", "OK");
+                return;
+            }
+            try
+            {
+                var plain = Crypto.DecryptStringAES(txt, password);
+                bool answer = await DisplayAlert(null, plain, "Copy", "Cancel");
+                if (answer)
+                {
+                    await Clipboard.SetTextAsync(plain);
+                }
+            }
+            catch (Exception)
+            {
+                await DisplayAlert(null, "Either the password is wrong or the image doesn't have secrets.", "OK");
+            }
+
         }
     }
 }

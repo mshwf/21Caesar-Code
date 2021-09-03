@@ -18,20 +18,18 @@
     <ScrollView>
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
-            <Image x:Name="image" Grid.Row="0">
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
-                </Image.GestureRecognizers>
-            </Image>
-            <Entry Grid.Row="1" x:Name="text" TextColor="Black" Text="Hello"/>
-            <Button Text="Pick Photo" Grid.Row="2" Background="Green"
+            <Entry Grid.Row="0" x:Name="text" TextColor="Black" Placeholder="Your secret message" 
+                   MaxLength="255"/>
+
+            <Button Text="Pick Photo" Grid.Row="1" Background="Green"
                     Clicked="OnPickPhotoButtonClicked" />
+            <Image x:Name="image" Grid.Row="2"/>
 
             <Button Grid.Row="3" Text="Hide" Clicked="HideClick" Background="red"/>
             <Button Grid.Row="4" Text="Save" Clicked="SaveClicked" Background="Blue"/>

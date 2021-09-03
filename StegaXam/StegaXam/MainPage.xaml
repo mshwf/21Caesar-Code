@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StegaXam.MainPage">
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="FillAndExpand" BackgroundColor="#4B3838">
+            <Grid VerticalOptions="CenterAndExpand" HeightRequest="200">
+
+                <Button Grid.Column="0" BackgroundColor="#908319" Text="Encode" Clicked="NavToEncode"></Button>
+                <Button Grid.Column="1" BackgroundColor="#44afff" Text="Decode" Clicked="NaveToDecode"></Button>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
