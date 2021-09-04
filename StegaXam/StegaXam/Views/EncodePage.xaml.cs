@@ -36,6 +36,7 @@ namespace StegaXam.Views
                 }
             }
             (sender as Button).IsEnabled = true;
+            hideBtn.IsEnabled = true;
         }
 
         string textToHide;
@@ -44,7 +45,7 @@ namespace StegaXam.Views
 
         private async void HideClick(object sender, EventArgs e)
         {
-            textToHide = text.Text;
+            textToHide = entryMsg.Text;
             if (string.IsNullOrEmpty(textToHide) || imageRaw == null) return;
 
             string password = await DisplayPromptAsync("Password", "Enter a password to encrypt the message.");
@@ -87,13 +88,23 @@ namespace StegaXam.Views
             ColorByte lastPixel = steg.GetPixel(lastX, lastY);
 
             steg.SetPixel(lastX, lastY, new ColorByte(lastPixel.R, lastPixel.G, textToHide.Length));
+            await DisplayAlert("The message was successfully hidden!", "Tap 'Save' to save the image and share it with anybody, they can't read the message without knowing the password", "OK");
+            hideBtn.IsEnabled = entryMsg.Text.Length > 0 && imageRaw != null;
+            saveBtn.IsVisible = true;
         }
 
-        private void SaveClicked(object sender, EventArgs e)
+        private async void SaveClicked(object sender, EventArgs e)
         {
+            saveBtn.IsEnabled = false;
             if (steg == null) return;
-            DependencyService.Get<IPicture>().SavePictureToDisk("ChartImage", steg.Save());
+            var fileName = DependencyService.Get<IPicture>().SavePictureToDisk("ChartImage", steg.Save());
+            await DisplayAlert("Photo saved successfully", $"You can find it in: {fileName}", "OK");
+            saveBtn.IsEnabled = true;
         }
 
+        private void EntryMsg_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            hideBtn.IsEnabled = entryMsg.Text.Length > 0 && imageRaw != null;
+        }
     }
 }

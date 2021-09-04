@@ -1,14 +1,56 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="StegaXam.MainPage">
+             x:Class="StegaXam.MainPage"
+             xmlns:local="clr-namespace:StegaXam;assembly=StegaXam"
+             BackgroundColor="{StaticResource Primary}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Frame">
+                <Setter Property="CornerRadius" Value="10"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout VerticalOptions="FillAndExpand" BackgroundColor="#4B3838">
-            <Grid VerticalOptions="CenterAndExpand" HeightRequest="200">
-
-                <Button Grid.Column="0" BackgroundColor="#908319" Text="Encode" Clicked="NavToEncode"></Button>
-                <Button Grid.Column="1" BackgroundColor="#44afff" Text="Decode" Clicked="NaveToDecode"></Button>
-            </Grid>
-        </StackLayout>
+        <Grid>
+            <StackLayout VerticalOptions="FillAndExpand" Padding="10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image BackgroundColor="{StaticResource Primary}" 
+                           Source="{local:ImageResource StegaXam.Images.info.png}"/>
+                <Label Grid.Column="1" FontSize="15">
+                    Steganography is a type securing messagesby hiding it in the photos pixels.
+                </Label>
+                </Grid>
+                <Grid VerticalOptions="CenterAndExpand" HeightRequest="200">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Frame BackgroundColor="{StaticResource SecondaryDark}">
+                        <Grid>
+                            <Image Source="{local:ImageResource StegaXam.Images.whispering.png}" Opacity=".5"/>
+                            <Label Text="Encode" TextColor="White" FontSize="24" FontAttributes="Bold" VerticalOptions="End" HorizontalOptions="Center"></Label>
+                        </Grid>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="NavToEncode"/>
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                    <Frame Grid.Column="2" BackgroundColor="{StaticResource SecondaryDark}">
+                        <Grid>
+                            <Image Source="{local:ImageResource StegaXam.Images.steganographie.png}" Opacity="0.5"/>
+                            <Label Text="Decode" TextColor="White" FontSize="24" FontAttributes="Bold" VerticalOptions="End" HorizontalOptions="Center"></Label>
+                        </Grid>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="NaveToDecode"/>
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                </Grid>
+            </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

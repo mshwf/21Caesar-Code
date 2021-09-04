@@ -6,6 +6,6 @@ namespace StegaXam.Services
 {
     public interface IPicture
     {
-        void SavePictureToDisk(string filename, byte[] imageData);
+        string SavePictureToDisk(string filename, byte[] imageData);
     }
 }

@@ -8,6 +8,7 @@ using Java.IO;
 using Plugin.CurrentActivity;
 using StegaXam.Droid;
 using StegaXam.Services;
+using System.IO;
 
 [assembly: Xamarin.Forms.Dependency(typeof(Picture_Droid))]
 namespace StegaXam.Droid
@@ -20,25 +21,28 @@ namespace StegaXam.Droid
         {
             _context = context;
         }
-        public void SavePictureToDisk(string filename, byte[] imageData)
+        public string SavePictureToDisk(string filename, byte[] imageData)
         {
-            var dir = Environment.GetExternalStoragePublicDirectory(Environment.DirectoryDcim);
-            var pictures = dir.AbsolutePath;
+            var pathToNewFolder = Environment.ExternalStorageDirectory.AbsolutePath + "/Steg";
+            Directory.CreateDirectory(pathToNewFolder);
+
             //adding a time stamp time file name to allow saving more than one image... otherwise it overwrites the previous saved image of the same name  
             string name = filename + System.DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".jpg";
-            string filePath = System.IO.Path.Combine(pictures, name);
+            string filePath = Path.Combine(pathToNewFolder, name);
             try
             {
                 CheckAppPermissions();
                 System.IO.File.WriteAllBytes(filePath, imageData);
                 //mediascan adds the saved image into the gallery  
                 var mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
-                mediaScanIntent.SetData(Uri.FromFile(new File(filePath)));
+                mediaScanIntent.SetData(Uri.FromFile(new Java.IO.File(filePath)));
                 _context.SendBroadcast(mediaScanIntent);
+                return filePath;
             }
             catch (System.Exception e)
             {
                 System.Console.WriteLine(e.ToString());
+                return filePath;
             }
         }
         private void CheckAppPermissions()

@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="StegaXam.Views.EncodePage"
              xmlns:vm="clr-namespace:StegaXam.ViewModels"
-             Title="{Binding Title}">
+             xmlns:local="clr-namespace:StegaXam;assembly=StegaXam"
+             Title="{Binding Title}" Padding="10" 
+             BackgroundColor="{StaticResource Primary}">
 
     <ContentPage.BindingContext>
         <vm:EncodeViewModel />
@@ -17,22 +19,23 @@
 
     <ScrollView>
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-            </Grid.RowDefinitions>
-            <Entry Grid.Row="0" x:Name="text" TextColor="Black" Placeholder="Your secret message" 
-                   MaxLength="255"/>
+            <StackLayout>
+                <Entry x:Name="entryMsg" TextColor="White" Placeholder="Your secret message" MaxLength="255" TextChanged="EntryMsg_TextChanged"/>
+                <Grid>
+                    <Button Grid.Column="0" Text="Pick Photo" BackgroundColor="{StaticResource Secondary}"
+                    Clicked="OnPickPhotoButtonClicked"
+                        ImageSource="{local:ImageResource StegaXam.Images.photo.png}"
+                        />
+                    <Button Grid.Column="1" x:Name="hideBtn" IsEnabled="False" Text="Hide" Clicked="HideClick" 
+                        ImageSource="{local:ImageResource StegaXam.Images.hide.png}"
+                        BackgroundColor="{StaticResource Secondary}" />
+                </Grid>
 
-            <Button Text="Pick Photo" Grid.Row="1" Background="Green"
-                    Clicked="OnPickPhotoButtonClicked" />
-            <Image x:Name="image" Grid.Row="2"/>
+                <Image x:Name="image" Grid.Row="2"/>
 
-            <Button Grid.Row="3" Text="Hide" Clicked="HideClick" Background="red"/>
-            <Button Grid.Row="4" Text="Save" Clicked="SaveClicked" Background="Blue"/>
+                <Button Grid.Row="4" x:Name="saveBtn" IsVisible="False" Text="Save" 
+                    Clicked="SaveClicked" BackgroundColor="{StaticResource Primary}"/>
+            </StackLayout>
         </Grid>
     </ScrollView>
 </ContentPage>

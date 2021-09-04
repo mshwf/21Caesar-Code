@@ -7,7 +7,23 @@
     -->
     <Application.Resources>
         <ResourceDictionary>
-            <Color x:Key="Primary">#2196F3</Color>
+            <Color x:Key="Primary">#202124</Color>
+            <Color x:Key="PrimaryLight">#47484c</Color>
+            <Color x:Key="PrimaryDark">#000000</Color>
+            <Color x:Key="PrimaryTextColor">#ffffff</Color>
+
+            <Color x:Key="Secondary">#880e4f</Color>
+            <Color x:Key="SecondaryLight">#bc477b</Color>
+            <Color x:Key="SecondaryDark">#560027</Color>
+            <Color x:Key="SecondaryTextColor">#ffffff</Color>
+            <Style TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="{StaticResource Secondary}" />
+                <Setter Property="BarTextColor" Value="White" />
+            </Style>
+            <Style x:Key="BG" TargetType="ContentPage">
+                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryLight}"/>
+            </Style>
+            
             <Style TargetType="Button">
                 <Setter Property="TextColor" Value="White"></Setter>
                 <Setter Property="VisualStateManager.VisualStateGroups">
@@ -27,6 +43,6 @@
                     </VisualStateGroupList>
                 </Setter>
             </Style>
-        </ResourceDictionary>        
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
