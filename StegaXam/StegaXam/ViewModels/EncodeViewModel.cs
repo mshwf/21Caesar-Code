@@ -11,5 +11,12 @@ namespace StegaXam.ViewModels
         {
             Title = "Encode";
         }
+
+        public ICommand Encode { get; set; } = new Command(OnEncode);
+
+        private static void OnEncode()
+        {
+            
+        }
     }
 }

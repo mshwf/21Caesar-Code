@@ -7,6 +7,7 @@
              xmlns:vm="clr-namespace:StegaXam.ViewModels"  
              xmlns:model="clr-namespace:StegaXam.Models" 
              x:DataType="vm:DecodeViewModel"
+              Padding="10"
              x:Name="BrowseItemsPage">
     <ScrollView>
         <Grid>
@@ -19,10 +20,11 @@
             </Grid.RowDefinitions>
             <Image x:Name="image" Grid.Row="0"/>
 
-            <Button Text="Pick Photo" Grid.Row="2" Background="Green"
+            <Button Text="Pick Photo" Grid.Row="2" 
+                    BackgroundColor="{StaticResource Secondary}" 
                     Clicked="OnPickPhotoButtonClicked" />
 
-            <Button Grid.Row="3" Text="Read" Clicked="ReadHiddenText_Tapped" Background="red"/>
+            <Button Grid.Row="3" Text="Read" Clicked="ReadHiddenText_Tapped" BackgroundColor="{StaticResource Secondary}" />
         </Grid>
     </ScrollView>
 </ContentPage>

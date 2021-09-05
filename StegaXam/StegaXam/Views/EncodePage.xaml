@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="StegaXam.Views.EncodePage"
              xmlns:vm="clr-namespace:StegaXam.ViewModels"
+             x:DataType="vm:EncodeViewModel"
              xmlns:local="clr-namespace:StegaXam;assembly=StegaXam"
              Title="{Binding Title}" Padding="10" 
              BackgroundColor="{StaticResource Primary}">
@@ -16,11 +17,12 @@
             <Color x:Key="Accent">#96d1ff</Color>
         </ResourceDictionary>
     </ContentPage.Resources>
-
+    <StackLayout>
+                <Editor HeightRequest="225" x:Name="entryMsg" TextColor="White"
+                        Placeholder="Your secret message" TextChanged="EntryMsg_TextChanged"/>
     <ScrollView>
         <Grid>
             <StackLayout>
-                <Entry x:Name="entryMsg" TextColor="White" Placeholder="Your secret message" MaxLength="255" TextChanged="EntryMsg_TextChanged"/>
                 <Grid>
                     <Button Grid.Column="0" Text="Pick Photo" BackgroundColor="{StaticResource Secondary}"
                     Clicked="OnPickPhotoButtonClicked"
@@ -33,9 +35,8 @@
 
                 <Image x:Name="image" Grid.Row="2"/>
 
-                <Button Grid.Row="4" x:Name="saveBtn" IsVisible="False" Text="Save" 
-                    Clicked="SaveClicked" BackgroundColor="{StaticResource Primary}"/>
             </StackLayout>
         </Grid>
     </ScrollView>
+    </StackLayout>
 </ContentPage>

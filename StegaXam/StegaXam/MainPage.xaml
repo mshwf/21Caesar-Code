@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="StegaXam.MainPage"
              xmlns:local="clr-namespace:StegaXam;assembly=StegaXam"
-             BackgroundColor="{StaticResource Primary}">
+             BackgroundColor="{StaticResource Primary}"
+             Title="21Caesar Code">
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style TargetType="Frame">
@@ -19,11 +20,25 @@
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Image BackgroundColor="{StaticResource Primary}" 
-                           Source="{local:ImageResource StegaXam.Images.info.png}"/>
-                <Label Grid.Column="1" FontSize="15">
-                    Steganography is a type securing messagesby hiding it in the photos pixels.
+                    <!--<Image BackgroundColor="{StaticResource Primary}" 
+                           Source="{local:ImageResource StegaXam.Images.info.png}"/>-->
+                    <Frame Grid.Column="1" BackgroundColor="{StaticResource PrimaryLight}">
+                         <Label FontSize="15">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                    <Span FontAttributes="Bold">21Caesar Code</Span>
+                                    <Span Text=" "></Span>
+                                    <Span>lets you embed text into image pixels, in unnoticable way</Span>
+                                    <Span Text=" "></Span>
+                                    <Span>so you can share it with people you communicate with, without eavsdroppers noticing you are sharing secrets.</Span>
+                                    <Span Text=" "></Span>
+                                    <Span>You can even choose to encrypt the message with a password, and only those who have the password can read it.</Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    
+                    
                 </Label>
+                    </Frame>
                 </Grid>
                 <Grid VerticalOptions="CenterAndExpand" HeightRequest="200">
                     <Grid.ColumnDefinitions>
@@ -31,7 +46,7 @@
                         <ColumnDefinition Width="5"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Frame BackgroundColor="{StaticResource SecondaryDark}">
+                    <Frame BackgroundColor="{StaticResource Secondary}">
                         <Grid>
                             <Image Source="{local:ImageResource StegaXam.Images.whispering.png}" Opacity=".5"/>
                             <Label Text="Encode" TextColor="White" FontSize="24" FontAttributes="Bold" VerticalOptions="End" HorizontalOptions="Center"></Label>
@@ -40,7 +55,7 @@
                             <TapGestureRecognizer Tapped="NavToEncode"/>
                         </Frame.GestureRecognizers>
                     </Frame>
-                    <Frame Grid.Column="2" BackgroundColor="{StaticResource SecondaryDark}">
+                    <Frame Grid.Column="2" BackgroundColor="{StaticResource Secondary}">
                         <Grid>
                             <Image Source="{local:ImageResource StegaXam.Images.steganographie.png}" Opacity="0.5"/>
                             <Label Text="Decode" TextColor="White" FontSize="24" FontAttributes="Bold" VerticalOptions="End" HorizontalOptions="Center"></Label>

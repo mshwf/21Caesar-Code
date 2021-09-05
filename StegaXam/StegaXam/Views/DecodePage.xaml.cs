@@ -16,7 +16,6 @@ namespace StegaXam.Views
         public DecodePage()
         {
             InitializeComponent();
-
             BindingContext = _viewModel = new DecodeViewModel();
         }
 
@@ -51,59 +50,84 @@ namespace StegaXam.Views
             (sender as Button).IsEnabled = true;
         }
 
-        private void ReadClick(object sender, EventArgs e)
-        {
-
-        }
         private IStegImage steg;
         bool _break = false;
 
         private async void ReadHiddenText_Tapped(object sender, EventArgs e)
         {
-            if (imageRaw == null) return;
-            steg = DependencyService.Get<IStegImage>();
-            steg.Init(imageRaw);
-
-            int lastX = steg.Width - 1;
-            int lastY = steg.Height - 1;
-            ColorByte lastPixel = steg.GetPixel(lastX, lastY);
-
-            double txtLength = lastPixel.B;
-            string txt = "";
-            for (int i = 0; i < steg.Width; i++)
-            {
-                for (int j = 0; j < steg.Height; j++)
-                {
-                    if (txt.Length == txtLength)
-                    {
-                        _break = true;
-                        break;
-                    }
-                    txt += (char)steg.GetPixel(i, j).B;
-                }
-                if (_break) break;
-            }
-
-            string password = await DisplayPromptAsync("Password required", null);
-            if (string.IsNullOrEmpty(password))
-            {
-                await DisplayAlert(null, "A password is a required", "OK");
-                return;
-            }
             try
             {
-                var plain = Crypto.DecryptStringAES(txt, password);
-                bool answer = await DisplayAlert(null, plain, "Copy", "Cancel");
-                if (answer)
-                {
-                    await Clipboard.SetTextAsync(plain);
-                }
-            }
-            catch (Exception)
-            {
-                await DisplayAlert(null, "Either the password is wrong or the image doesn't have secrets.", "OK");
-            }
+                if (imageRaw == null) return;
+                steg = DependencyService.Get<IStegImage>();
+                steg.Init(imageRaw);
 
+                if (!(LengthCheck(steg) && StampCheck(steg) && PasswordCheck(steg)))
+                {
+                    await DisplayAlert("No secrets", "No secrets can be found in this image", "OK");
+                    return;
+                }
+                var hasPassword = steg.GetPixel(0, 3).B == 1;
+
+                var txtLength = BitConverter.ToInt32(new byte[] {
+                (byte)steg.GetPixel(0, 4).B,
+                (byte)steg.GetPixel(0, 5).B,
+                (byte)steg.GetPixel(0, 6).B,
+                (byte)steg.GetPixel(0, 7).B}, 0);
+
+                string txt = "";
+                for (int i = 0; i < steg.Width; i++)
+                {
+                    for (int j = 0; j < steg.Height; j++)
+                    {
+                        if (i == 0 && j < 8) continue;
+                        if (txt.Length == txtLength)
+                        {
+                            _break = true;
+                            break;
+                        }
+                        txt += (char)steg.GetPixel(i, j).B;
+                    }
+                    if (_break) break;
+                }
+                try
+                {
+                    if (hasPassword)
+                    {
+                        string password = await DisplayPromptAsync("Password required", null);
+                        if (string.IsNullOrEmpty(password))
+                        {
+                            await DisplayAlert(null, "A password is a required", "OK");
+                            return;
+                        }
+                        txt = Crypto.DecryptStringAES(txt, password);
+                    }
+
+
+                    bool answer = await DisplayAlert(null, txt, "Copy", "Cancel");
+                    if (answer)
+                    {
+                        await Clipboard.SetTextAsync(txt);
+                    }
+                }
+                catch (Exception)
+                {
+                    await DisplayAlert(null, "Incorrect password!", "OK");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Exception", ex.ToString(), "OK");
+            }
         }
+
+        private bool LengthCheck(IStegImage steg) => steg.Width * steg.Height > 8;
+
+        private bool StampCheck(IStegImage steg)
+        => steg.GetPixel(0, 0).B == App.AppStamp[0] ||
+            steg.GetPixel(0, 1).B == App.AppStamp[1] ||
+            steg.GetPixel(0, 2).B == App.AppStamp[2];
+        private bool PasswordCheck(IStegImage steg) => steg.GetPixel(0, 3).B == 0 || steg.GetPixel(0, 3).B == 1;
+
     }
 }

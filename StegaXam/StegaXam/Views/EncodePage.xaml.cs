@@ -45,61 +45,74 @@ namespace StegaXam.Views
 
         private async void HideClick(object sender, EventArgs e)
         {
-            textToHide = entryMsg.Text;
-            if (string.IsNullOrEmpty(textToHide) || imageRaw == null) return;
-
-            string password = await DisplayPromptAsync("Password", "Enter a password to encrypt the message.");
-
-            if (string.IsNullOrEmpty(password))
+            try
             {
-                await DisplayAlert(null, "A password is a required", "OK");
-                return;
-            }
-            textToHide = Crypto.EncryptStringAES(textToHide, password);
-            steg = DependencyService.Get<IStegImage>();
-            steg.Init(imageRaw);
-            if (steg.Width * steg.Height < textToHide.Length + 1)
-            {
-                await DisplayAlert(null, "The image is too small for the message, choose bigger one.", "OK");
-                return;
-            }
+                textToHide = entryMsg.Text;
+                if (string.IsNullOrEmpty(textToHide) || imageRaw == null) return;
 
-            bool _break = false;
-            for (int i = 0; i < steg.Width; i++)
-            {
-                for (int j = 0; j < steg.Height; j++)
+                string password = await DisplayPromptAsync("Password?", "Enter a password to encrypt the message. Or leave empty to embed the message in plain text (not encrypted)");
+                bool hasPassword = false;
+                if (!string.IsNullOrEmpty(password))
                 {
-                    ColorByte pixel = steg.GetPixel(i, j);
-                    if (currentChar < textToHide.Length)
-                    {
-                        int ch = textToHide[currentChar++];
-                        steg.SetPixel(i, j, new ColorByte(pixel.R, pixel.G, ch));
-                    }
-                    else
-                    {
-                        _break = true;
-                        break;
-                    }
+                    hasPassword = true;
+                    textToHide = Crypto.EncryptStringAES(textToHide, password);
                 }
-                if (_break) break;
+                steg = DependencyService.Get<IStegImage>();
+                steg.Init(imageRaw);
+                if (steg.Width * steg.Height < textToHide.Length + 8)
+                {
+                    await DisplayAlert(null, "The image is too small for the message, choose bigger one.", "OK");
+                    return;
+                }
+                bool _break = false;
+                for (int i = 0; i < steg.Width; i++)
+                {
+                    for (int j = 0; j < steg.Height; j++)
+                    {
+                        ColorByte pixel = steg.GetPixel(i, j);
+                        if (i == 0)
+                        {
+                            if (j < 8)
+                            {
+                                if (j < 3)
+                                    steg.SetPixel(i, j, new ColorByte(pixel.R, pixel.G, App.AppStamp[j]));
+                                else if (j == 3)
+                                    steg.SetPixel(i, j, new ColorByte(pixel.R, pixel.G, hasPassword ? 1 : 0));
+                                else
+                                {
+                                    byte[] lengthBytes = BitConverter.GetBytes(textToHide.Length);
+                                    if (lengthBytes.Length > 4)
+                                        await DisplayAlert("Message is too larg", "Try shrinking the message or encode more photos", "OK");
+                                    else
+                                        steg.SetPixel(i, j, new ColorByte(pixel.R, pixel.G, lengthBytes[j - 4]));
+                                }
+                                continue;
+                            }
+                        }
+
+                        if (currentChar < textToHide.Length)
+                        {
+                            int ch = textToHide[currentChar++];
+                            steg.SetPixel(i, j, new ColorByte(pixel.R, pixel.G, ch));
+                        }
+                        else
+                        {
+                            _break = true;
+                            break;
+                        }
+                    }
+                    if (_break) break;
+                }
+                var fileName = DependencyService.Get<IPicture>().SavePictureToDisk("21Caesar", steg.Save());
+                var pwdMesg = hasPassword ? "they can't read the message without knowing the password, " : null;
+                await DisplayAlert("Your secret has been embeded successfully",
+                    $"You can now share it with anybody, {pwdMesg}the image name: {fileName}", "OK");
+                hideBtn.IsEnabled = entryMsg.Text.Length > 0 && imageRaw != null;
             }
-            int lastX = steg.Width - 1;
-            int lastY = steg.Height - 1;
-            ColorByte lastPixel = steg.GetPixel(lastX, lastY);
-
-            steg.SetPixel(lastX, lastY, new ColorByte(lastPixel.R, lastPixel.G, textToHide.Length));
-            await DisplayAlert("The message was successfully hidden!", "Tap 'Save' to save the image and share it with anybody, they can't read the message without knowing the password", "OK");
-            hideBtn.IsEnabled = entryMsg.Text.Length > 0 && imageRaw != null;
-            saveBtn.IsVisible = true;
-        }
-
-        private async void SaveClicked(object sender, EventArgs e)
-        {
-            saveBtn.IsEnabled = false;
-            if (steg == null) return;
-            var fileName = DependencyService.Get<IPicture>().SavePictureToDisk("ChartImage", steg.Save());
-            await DisplayAlert("Photo saved successfully", $"You can find it in: {fileName}", "OK");
-            saveBtn.IsEnabled = true;
+            catch (Exception ex)
+            {
+                await DisplayAlert("Exception", ex.ToString(), "OK");
+            }
         }
 
         private void EntryMsg_TextChanged(object sender, TextChangedEventArgs e)
