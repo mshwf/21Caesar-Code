@@ -28,36 +28,44 @@ namespace StegaXam.Views
         byte[] imageRaw;
         private async void OnPickPhotoButtonClicked(object sender, EventArgs e)
         {
-            (sender as Button).IsEnabled = false;
+            (sender as VisualElement).IsEnabled = false;
 
             Stream stream = await DependencyService.Get<IPhotoPickerService>().GetImageStreamAsync();
             if (stream == null)
             {
-                (sender as Button).IsEnabled = true;
+                (sender as VisualElement).IsEnabled = true;
                 return;
             }
             var memoryStream = new MemoryStream();
             await stream.CopyToAsync(memoryStream);
             if (stream != null)
             {
-                image.Source = ImageSource.FromStream(() => new MemoryStream(memoryStream.ToArray()));
                 using (var ms = new MemoryStream())
                 {
                     //await stream.CopyToAsync(ms);
                     imageRaw = memoryStream.ToArray();
+                    image.Source = ImageSource.FromStream(() => new MemoryStream(imageRaw));
+
                 }
             }
-            (sender as Button).IsEnabled = true;
+            (sender as VisualElement).IsEnabled = true;
+            image.IsVisible = true;
+            closeImg.IsVisible = true;
+            imageIcon.IsVisible = false;
         }
 
         private IStegImage steg;
         bool _break = false;
 
-        private async void ReadHiddenText_Tapped(object sender, EventArgs e)
+        private async void RevealMessage_Tapped(object sender, EventArgs e)
         {
             try
             {
-                if (imageRaw == null) return;
+                if (imageRaw == null)
+                {
+                    await DisplayAlert(null, "First, pick up the photo that contains the secret message", "OK");
+                    return;
+                }
                 steg = DependencyService.Get<IStegImage>();
                 steg.Init(imageRaw);
 
@@ -94,7 +102,8 @@ namespace StegaXam.Views
                     string password = await DisplayPromptAsync("Password required", null);
                     if (string.IsNullOrEmpty(password))
                     {
-                        await DisplayAlert(null, "Password is a required", "OK");
+                        if (password == "")
+                            await DisplayAlert(null, "Password is a required", "OK");
                         return;
                     }
                     try
@@ -108,7 +117,7 @@ namespace StegaXam.Views
                     }
                 }
 
-                bool copy = await DisplayAlert("Message revealed 👁", txt, "Copy", "Cancel");
+                bool copy = await DisplayAlert("👁", txt, "Copy", "Cancel");
                 if (copy)
                 {
                     await Clipboard.SetTextAsync(txt);
@@ -128,5 +137,12 @@ namespace StegaXam.Views
             steg.GetPixel(0, 2).B == App.AppStamp[2];
         private bool PasswordCheck(IStegImage steg) => steg.GetPixel(0, 3).B == 0 || steg.GetPixel(0, 3).B == 1;
 
+        private void DismissImage_Tapped(object sender, EventArgs e)
+        {
+            image.Source = null;
+            imageRaw = null;
+            imageIcon.IsVisible = true;
+            closeImg.IsVisible = false;
+        }
     }
 }

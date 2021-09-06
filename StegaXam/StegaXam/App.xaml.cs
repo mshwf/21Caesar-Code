@@ -4,6 +4,9 @@ using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+[assembly: ExportFont("FontAwesome5Regular-400.otf", Alias = "FontAwesome5Regular")]
+[assembly: ExportFont("FontAwesome5Solid-900.otf", Alias = "FontAwesome5Solid")]
+
 namespace StegaXam
 {
     public partial class App : Application

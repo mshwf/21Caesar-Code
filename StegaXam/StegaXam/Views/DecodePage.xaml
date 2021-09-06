@@ -8,43 +8,76 @@
              xmlns:model="clr-namespace:StegaXam.Models" 
              x:DataType="vm:DecodeViewModel"
               Padding="10"
+             BackgroundColor="{StaticResource Primary}"
              x:Name="BrowseItemsPage">
-    <ScrollView>
-        <Grid>
+    <Grid Padding="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid VerticalOptions="FillAndExpand">
             <Grid.RowDefinitions>
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
-            <Image x:Name="image" Grid.Row="0"/>
-            <Grid BackgroundColor="red">
+            <Grid BackgroundColor="{StaticResource SecondaryLight}"
+                  Padding="0"
+                  WidthRequest="190">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="3"/>
+                    <RowDefinition Height=".5"/>
                     <RowDefinition/>
-                    <RowDefinition Height="3"/>
+                    <RowDefinition Height=".5"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3"/>
+                    <ColumnDefinition Width=".5"/>
                     <ColumnDefinition/>
-                    <ColumnDefinition Width="3"/>
+                    <ColumnDefinition Width=".5"/>
                 </Grid.ColumnDefinitions>
-                <Grid BackgroundColor="Black" WidthRequest="50" Grid.Column="1" Grid.Row="1">
-                    <Image VerticalOptions="CenterAndExpand" Source="{local:ImageResource StegaXam.Images.upload.png}" WidthRequest="50" HeightRequest="50"/>
+                <Frame CornerRadius="4" HasShadow="False" BackgroundColor="{StaticResource Primary}"
+                       Grid.Column="1" Grid.Row="1">
+                    <Grid>
+                        <Grid>
+                            <Image x:Name="imageIcon"
+                           VerticalOptions="CenterAndExpand">
+                                <Image.Source>
+                                    <FontImageSource FontFamily="FontAwesome5Regular" Glyph="image" Size="150"
+                                                 Color="{StaticResource SecondaryLight}"/>
+                                </Image.Source>
+                            </Image>
 
-                </Grid>
+                            <Image x:Name="image" IsVisible="False"/>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnPickPhotoButtonClicked"/>
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                        <Image HorizontalOptions="End" VerticalOptions="Start" IsVisible="False" x:Name="closeImg">
+                            <Image.Source>
+                                <FontImageSource FontFamily="FontAwesome5Regular" Glyph="times-circle"
+                                                 Color="{StaticResource SecondaryDark}"/>
+                            </Image.Source>
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="DismissImage_Tapped"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </Grid>
+                </Frame>
             </Grid>
             <!--<Frame BorderColor="{StaticResource Secondary}" WidthRequest="100" HeightRequest="250" BackgroundColor="Transparent">
                 <StackLayout>
                     
                 </StackLayout>
             </Frame>-->
-            <Button Text="Pick Photo" Grid.Row="2" 
+            <!--<Button Text="Pick Photo" Grid.Row="2" 
                     BackgroundColor="{StaticResource Secondary}" 
-                    Clicked="OnPickPhotoButtonClicked" />
+                    Clicked="OnPickPhotoButtonClicked" />-->
 
-            <Button Grid.Row="3" Text="Reveal" Clicked="ReadHiddenText_Tapped" BackgroundColor="{StaticResource Secondary}" />
         </Grid>
-    </ScrollView>
+        <StackLayout Grid.Row="1">
+            <Button Grid.Row="2" Text="Reveal" 
+                    VerticalOptions="EndAndExpand"
+                    Clicked="RevealMessage_Tapped" BackgroundColor="{StaticResource Secondary}" />
+        </StackLayout>
+    </Grid>
 </ContentPage>

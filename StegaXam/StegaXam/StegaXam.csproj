@@ -6,6 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Fonts\FontAwesome5Regular-400.otf" />
+    <None Remove="Assets\Fonts\FontAwesome5Solid-900.otf" />
     <None Remove="Images\detective.png" />
     <None Remove="Images\hide.png" />
     <None Remove="Images\icons8-whispering-100.png" />
@@ -18,6 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Assets\Fonts\FontAwesome5Regular-400.otf" />
+    <EmbeddedResource Include="Assets\Fonts\FontAwesome5Solid-900.otf" />
     <EmbeddedResource Include="Images\detective.png" />
     <EmbeddedResource Include="Images\hide.png" />
     <EmbeddedResource Include="Images\info.png" />

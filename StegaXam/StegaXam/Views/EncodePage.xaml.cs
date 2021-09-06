@@ -79,24 +79,21 @@ namespace StegaXam.Views
                     for (int j = 0; j < steg.Height; j++)
                     {
                         ColorByte pixel = steg.GetPixel(i, j);
-                        if (i == 0)
+                        if (i == 0 && j < 8)
                         {
-                            if (j < 8)
+                            if (j < 3)
+                                steg.SetPixel(i, j, new ColorByte(pixel.R, pixel.G, App.AppStamp[j]));
+                            else if (j == 3)
+                                steg.SetPixel(i, j, new ColorByte(pixel.R, pixel.G, hasPassword ? 1 : 0));
+                            else
                             {
-                                if (j < 3)
-                                    steg.SetPixel(i, j, new ColorByte(pixel.R, pixel.G, App.AppStamp[j]));
-                                else if (j == 3)
-                                    steg.SetPixel(i, j, new ColorByte(pixel.R, pixel.G, hasPassword ? 1 : 0));
+                                byte[] lengthBytes = BitConverter.GetBytes(textToHide.Length);
+                                if (lengthBytes.Length > 4)
+                                    await DisplayAlert("Message is too larg", "Try shrinking the message or encode more photos", "OK");
                                 else
-                                {
-                                    byte[] lengthBytes = BitConverter.GetBytes(textToHide.Length);
-                                    if (lengthBytes.Length > 4)
-                                        await DisplayAlert("Message is too larg", "Try shrinking the message or encode more photos", "OK");
-                                    else
-                                        steg.SetPixel(i, j, new ColorByte(pixel.R, pixel.G, lengthBytes[j - 4]));
-                                }
-                                continue;
+                                    steg.SetPixel(i, j, new ColorByte(pixel.R, pixel.G, lengthBytes[j - 4]));
                             }
+                            continue;
                         }
 
                         if (currentChar < textToHide.Length)
