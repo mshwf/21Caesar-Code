@@ -116,6 +116,10 @@ namespace StegaXam.Views
                         return;
                     }
                 }
+                else
+                {
+                    txt = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(txt));
+                }
 
                 bool copy = await DisplayAlert("👁", txt, "Copy", "Cancel");
                 if (copy)

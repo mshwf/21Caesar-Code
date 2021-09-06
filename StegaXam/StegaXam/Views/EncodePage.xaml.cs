@@ -66,11 +66,15 @@ namespace StegaXam.Views
                     hasPassword = true;
                     textToHide = Crypto.EncryptStringAES(textToHide, password);
                 }
+                else
+                {
+                    textToHide = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(textToHide));
+                }
                 steg = DependencyService.Get<IStegImage>();
                 steg.Init(imageRaw);
                 if (steg.Width * steg.Height < textToHide.Length + 8)
                 {
-                    await DisplayAlert(null, "The image is too small for the message, choose bigger one.", "OK");
+                    await DisplayAlert("Oops!", "The image is too small for the message, choose bigger one.", "OK");
                     return;
                 }
                 bool _break = false;
