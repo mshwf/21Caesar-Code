@@ -19,12 +19,32 @@
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Image x:Name="image" Grid.Row="0"/>
+            <Grid BackgroundColor="red">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="3"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="3"/>
+                </Grid.ColumnDefinitions>
+                <Grid BackgroundColor="Black" WidthRequest="50" Grid.Column="1" Grid.Row="1">
+                    <Image VerticalOptions="CenterAndExpand" Source="{local:ImageResource StegaXam.Images.upload.png}" WidthRequest="50" HeightRequest="50"/>
 
+                </Grid>
+            </Grid>
+            <!--<Frame BorderColor="{StaticResource Secondary}" WidthRequest="100" HeightRequest="250" BackgroundColor="Transparent">
+                <StackLayout>
+                    
+                </StackLayout>
+            </Frame>-->
             <Button Text="Pick Photo" Grid.Row="2" 
                     BackgroundColor="{StaticResource Secondary}" 
                     Clicked="OnPickPhotoButtonClicked" />
 
-            <Button Grid.Row="3" Text="Read" Clicked="ReadHiddenText_Tapped" BackgroundColor="{StaticResource Secondary}" />
+            <Button Grid.Row="3" Text="Reveal" Clicked="ReadHiddenText_Tapped" BackgroundColor="{StaticResource Secondary}" />
         </Grid>
     </ScrollView>
 </ContentPage>

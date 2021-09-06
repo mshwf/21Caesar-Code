@@ -89,31 +89,30 @@ namespace StegaXam.Views
                     }
                     if (_break) break;
                 }
-                try
+                if (hasPassword)
                 {
-                    if (hasPassword)
+                    string password = await DisplayPromptAsync("Password required", null);
+                    if (string.IsNullOrEmpty(password))
                     {
-                        string password = await DisplayPromptAsync("Password required", null);
-                        if (string.IsNullOrEmpty(password))
-                        {
-                            await DisplayAlert(null, "A password is a required", "OK");
-                            return;
-                        }
+                        await DisplayAlert(null, "Password is a required", "OK");
+                        return;
+                    }
+                    try
+                    {
                         txt = Crypto.DecryptStringAES(txt, password);
                     }
-
-
-                    bool answer = await DisplayAlert(null, txt, "Copy", "Cancel");
-                    if (answer)
+                    catch (Exception)
                     {
-                        await Clipboard.SetTextAsync(txt);
+                        await DisplayAlert("Wrong password ✘", "You didn't enter the correct password", "OK");
+                        return;
                     }
                 }
-                catch (Exception)
-                {
-                    await DisplayAlert(null, "Incorrect password!", "OK");
-                }
 
+                bool copy = await DisplayAlert("Message revealed 👁", txt, "Copy", "Cancel");
+                if (copy)
+                {
+                    await Clipboard.SetTextAsync(txt);
+                }
             }
             catch (Exception ex)
             {

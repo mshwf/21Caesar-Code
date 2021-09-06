@@ -13,6 +13,7 @@
     <None Remove="Images\photo.png" />
     <None Remove="Images\save.png" />
     <None Remove="Images\steganographie.png" />
+    <None Remove="Images\upload.png" />
     <None Remove="Images\whispering.png" />
   </ItemGroup>
 
@@ -23,6 +24,7 @@
     <EmbeddedResource Include="Images\photo.png" />
     <EmbeddedResource Include="Images\save.png" />
     <EmbeddedResource Include="Images\steganographie.png" />
+    <EmbeddedResource Include="Images\upload.png" />
     <EmbeddedResource Include="Images\whispering-fill.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>

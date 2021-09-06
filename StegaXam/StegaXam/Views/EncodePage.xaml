@@ -26,8 +26,8 @@
                 <Grid>
                     <Button Grid.Column="0" Text="Pick Photo" BackgroundColor="{StaticResource Secondary}"
                     Clicked="OnPickPhotoButtonClicked"
-                        ImageSource="{local:ImageResource StegaXam.Images.photo.png}"
-                        />
+                        ImageSource="{local:ImageResource StegaXam.Images.photo.png}"/>
+                    
                     <Button Grid.Column="1" x:Name="hideBtn" Text="Hide" Clicked="HideClick" 
                         ImageSource="{local:ImageResource StegaXam.Images.hide.png}"
                         BackgroundColor="{StaticResource Secondary}" />
