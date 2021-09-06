@@ -23,15 +23,16 @@ namespace StegaXam.Droid
         }
         public string SavePictureToDisk(string filename, byte[] imageData)
         {
-            var pathToNewFolder = Environment.ExternalStorageDirectory.AbsolutePath + "/Steg";
-            Directory.CreateDirectory(pathToNewFolder);
-
-            //adding a time stamp time file name to allow saving more than one image... otherwise it overwrites the previous saved image of the same name  
-            string name = filename + System.DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".jpg";
-            string filePath = Path.Combine(pathToNewFolder, name);
             try
             {
                 CheckAppPermissions();
+                var pathToNewFolder = Environment.ExternalStorageDirectory.AbsolutePath + "/21Caesar";
+                Directory.CreateDirectory(pathToNewFolder);
+
+                //adding a time stamp time file name to allow saving more than one image... otherwise it overwrites the previous saved image of the same name  
+                string name = System.DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".jpg";
+                string filePath = Path.Combine(pathToNewFolder, name);
+
                 System.IO.File.WriteAllBytes(filePath, imageData);
                 //mediascan adds the saved image into the gallery  
                 var mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
@@ -42,7 +43,7 @@ namespace StegaXam.Droid
             catch (System.Exception e)
             {
                 System.Console.WriteLine(e.ToString());
-                return filePath;
+                return null;
             }
         }
         private void CheckAppPermissions()

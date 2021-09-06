@@ -36,7 +36,7 @@ namespace StegaXam.Views
                 }
             }
             (sender as Button).IsEnabled = true;
-            hideBtn.IsEnabled = true;
+            //hideBtn.IsEnabled = true;
         }
 
         string textToHide;
@@ -48,9 +48,18 @@ namespace StegaXam.Views
             try
             {
                 textToHide = entryMsg.Text;
-                if (string.IsNullOrEmpty(textToHide) || imageRaw == null) return;
+                if (string.IsNullOrEmpty(textToHide))
+                {
+                    await DisplayAlert("What's your message?", "Type the message you wish to hide from enemies", "OK");
+                    return;
+                }
+                if (imageRaw == null)
+                {
+                    await DisplayAlert("No image selected!", "Pick up an image to hide your message in.", "OK");
+                    return;
+                }
 
-                string password = await DisplayPromptAsync("Password?", "Enter a password to encrypt the message. Or leave empty to embed the message in plain text (not encrypted)");
+                string password = await DisplayPromptAsync("Password?", "Enter a password, or leave empty to embed the message in plain (not encrypted)");
                 bool hasPassword = false;
                 if (!string.IsNullOrEmpty(password))
                 {
@@ -107,7 +116,7 @@ namespace StegaXam.Views
                 var pwdMesg = hasPassword ? "they can't read the message without knowing the password, " : null;
                 await DisplayAlert("Your secret has been embeded successfully",
                     $"You can now share it with anybody, {pwdMesg}the image name: {fileName}", "OK");
-                hideBtn.IsEnabled = entryMsg.Text.Length > 0 && imageRaw != null;
+                //hideBtn.IsEnabled = entryMsg.Text.Length > 0 && imageRaw != null;
             }
             catch (Exception ex)
             {
@@ -117,7 +126,7 @@ namespace StegaXam.Views
 
         private void EntryMsg_TextChanged(object sender, TextChangedEventArgs e)
         {
-            hideBtn.IsEnabled = entryMsg.Text.Length > 0 && imageRaw != null;
+            //hideBtn.IsEnabled = entryMsg.Text.Length > 0 && imageRaw != null;
         }
     }
 }
