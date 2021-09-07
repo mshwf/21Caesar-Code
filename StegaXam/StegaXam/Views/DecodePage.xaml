@@ -7,47 +7,42 @@
              xmlns:vm="clr-namespace:StegaXam.ViewModels"  
              xmlns:model="clr-namespace:StegaXam.Models" 
              x:DataType="vm:DecodeViewModel"
-              Padding="10"
+              Padding="0"
+             xmlns:magic="clr-namespace:MagicGradients;assembly=MagicGradients"
              BackgroundColor="{StaticResource Primary}"
              x:Name="BrowseItemsPage">
-    <Grid Padding="10">
+    <Grid>
+        <magic:GradientView VerticalOptions="FillAndExpand" >
+            <magic:GradientView.GradientSource>
+                <magic:CssGradientSource>
+                    <x:String>
+                        <![CDATA[
+                                        linear-gradient(45deg, rgb(167, 167, 167), rgb(167, 167, 167) 9%,rgb(100, 100, 100) 9%, rgb(50, 50, 50) 13%,rgb(40, 40, 40) 13%, rgb(35, 35, 35) 32%,rgb(20, 20, 20) 32%, rgb(15, 15, 15) 42%)
+                                    ]]>
+                    </x:String>
+                </magic:CssGradientSource>
+            </magic:GradientView.GradientSource>
+        </magic:GradientView>
+        <Grid Padding="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <Grid VerticalOptions="FillAndExpand">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="3*" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Grid BackgroundColor="{StaticResource SecondaryLight}"
-                  Padding="0"
-                  WidthRequest="190">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height=".5"/>
-                    <RowDefinition/>
-                    <RowDefinition Height=".5"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width=".5"/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width=".5"/>
-                </Grid.ColumnDefinitions>
-                <Frame CornerRadius="4" HasShadow="False" BackgroundColor="{StaticResource Primary}"
-                       Grid.Column="1" Grid.Row="1">
+           
+            <Frame CornerRadius="4" HasShadow="False" BackgroundColor="{StaticResource SecondaryDark}" Padding="10">
+                <Frame BackgroundColor="{StaticResource Primary}" CornerRadius="10">
                     <Grid>
                         <Grid>
                             <Image x:Name="imageIcon"
                            VerticalOptions="CenterAndExpand">
                                 <Image.Source>
                                     <FontImageSource FontFamily="FontAwesome5Regular" Glyph="image" Size="150"
-                                                 Color="{StaticResource SecondaryLight}"/>
+                                             Color="{StaticResource SecondaryLight}"/>
                                 </Image.Source>
                             </Image>
 
-                            <Image x:Name="image" IsVisible="False"/>
+                            <Image x:Name="image"/>
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="OnPickPhotoButtonClicked"/>
                             </Grid.GestureRecognizers>
@@ -63,21 +58,13 @@
                         </Image>
                     </Grid>
                 </Frame>
-            </Grid>
-            <!--<Frame BorderColor="{StaticResource Secondary}" WidthRequest="100" HeightRequest="250" BackgroundColor="Transparent">
-                <StackLayout>
-                    
-                </StackLayout>
-            </Frame>-->
-            <!--<Button Text="Pick Photo" Grid.Row="2" 
-                    BackgroundColor="{StaticResource Secondary}" 
-                    Clicked="OnPickPhotoButtonClicked" />-->
+            </Frame>
 
-        </Grid>
-        <StackLayout Grid.Row="1">
-            <Button Grid.Row="2" Text="Reveal" 
+        <StackLayout Grid.Row="2">
+            <Button Text="Reveal" 
                     VerticalOptions="EndAndExpand"
-                    Clicked="RevealMessage_Tapped" BackgroundColor="{StaticResource Secondary}" />
+                    Clicked="RevealMessage_Tapped" BackgroundColor="#88042C"/>
         </StackLayout>
+        </Grid>
     </Grid>
 </ContentPage>

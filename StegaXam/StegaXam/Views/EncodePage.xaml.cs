@@ -16,12 +16,12 @@ namespace StegaXam.Views
         byte[] imageRaw;
         private async void OnPickPhotoButtonClicked(object sender, EventArgs e)
         {
-            (sender as Button).IsEnabled = false;
+            (sender as VisualElement).IsEnabled = false;
 
             Stream stream = await DependencyService.Get<IPhotoPickerService>().GetImageStreamAsync();
             if (stream == null)
             {
-                (sender as Button).IsEnabled = true;
+                (sender as VisualElement).IsEnabled = true;
                 return;
             }
             var memoryStream = new MemoryStream();
@@ -35,8 +35,7 @@ namespace StegaXam.Views
                     imageRaw = memoryStream.ToArray();
                 }
             }
-            (sender as Button).IsEnabled = true;
-            //hideBtn.IsEnabled = true;
+            (sender as VisualElement).IsEnabled = true;
         }
 
         string textToHide;
@@ -61,7 +60,8 @@ namespace StegaXam.Views
 
                 string password = await DisplayPromptAsync("Password?", "Enter a password, or leave empty to embed the message in plain (not encrypted)");
                 bool hasPassword = false;
-                if (!string.IsNullOrEmpty(password))
+                if (password == null) return;
+                if (password != "")
                 {
                     hasPassword = true;
                     textToHide = Crypto.EncryptStringAES(textToHide, password);
@@ -128,6 +128,11 @@ namespace StegaXam.Views
         private void EntryMsg_TextChanged(object sender, TextChangedEventArgs e)
         {
             //hideBtn.IsEnabled = entryMsg.Text.Length > 0 && imageRaw != null;
+        }
+
+        private void DismissImage_Tapped(object sender, EventArgs e)
+        {
+
         }
     }
 }

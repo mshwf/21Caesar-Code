@@ -5,38 +5,70 @@
              xmlns:vm="clr-namespace:StegaXam.ViewModels"
              x:DataType="vm:EncodeViewModel"
              xmlns:local="clr-namespace:StegaXam;assembly=StegaXam"
-             Title="{Binding Title}" Padding="10" 
+             Title="{Binding Title}" Padding="0" 
+             xmlns:magic="clr-namespace:MagicGradients;assembly=MagicGradients"
              BackgroundColor="{StaticResource Primary}">
 
     <ContentPage.BindingContext>
         <vm:EncodeViewModel />
     </ContentPage.BindingContext>
+    <Grid>
+        <magic:GradientView VerticalOptions="FillAndExpand" >
+            <magic:GradientView.GradientSource>
+                <magic:CssGradientSource>
+                    <x:String>
+                        <![CDATA[
+                                        linear-gradient(45deg, rgb(167, 167, 167), rgb(167, 167, 167) 9%,rgb(100, 100, 100) 9%, rgb(50, 50, 50) 13%)
+                                    ]]>
+                    </x:String>
+                </magic:CssGradientSource>
+            </magic:GradientView.GradientSource>
+        </magic:GradientView>
+        <Grid Padding="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="225"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+            <Editor HeightRequest="225" x:Name="entryMsg" TextColor="White" FontFamily="HammersmithOneRegular"
+                Placeholder="Your secret message"
+                PlaceholderColor="#aaA5A5A5"
+                TextChanged="EntryMsg_TextChanged"/>
 
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <Color x:Key="Accent">#96d1ff</Color>
-        </ResourceDictionary>
-    </ContentPage.Resources>
-    <StackLayout>
-                <Editor HeightRequest="225" x:Name="entryMsg" TextColor="White"
-                        Placeholder="Your secret message" TextChanged="EntryMsg_TextChanged"/>
-    <ScrollView>
-        <Grid>
-            <StackLayout>
+        <Frame HasShadow="True" BackgroundColor="{StaticResource SecondaryDark}" Padding="10"
+                        Grid.Row="1" CornerRadius="10">
+            <Frame BackgroundColor="{StaticResource Primary}" CornerRadius="10" HasShadow="False">
                 <Grid>
-                    <Button Grid.Column="0" Text="Pick Photo" BackgroundColor="{StaticResource Secondary}"
-                    Clicked="OnPickPhotoButtonClicked"
-                        ImageSource="{local:ImageResource StegaXam.Images.photo.png}"/>
-                    
-                    <Button Grid.Column="1" x:Name="hideBtn" Text="Hide" Clicked="HideClick" 
-                        ImageSource="{local:ImageResource StegaXam.Images.hide.png}"
-                        BackgroundColor="{StaticResource Secondary}" />
+                    <Grid>
+                        <Image x:Name="imageIcon"
+                           VerticalOptions="CenterAndExpand">
+                            <Image.Source>
+                                <FontImageSource FontFamily="FontAwesome5Regular" Glyph="image" Size="150"
+                                             Color="{StaticResource SecondaryLight}"/>
+                            </Image.Source>
+                        </Image>
+
+                        <Image x:Name="image"/>
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnPickPhotoButtonClicked"/>
+                        </Grid.GestureRecognizers>
+                    </Grid>
+                    <Image HorizontalOptions="End" VerticalOptions="Start" IsVisible="False" x:Name="closeImg">
+                        <Image.Source>
+                            <FontImageSource FontFamily="FontAwesome5Regular" Glyph="times-circle"
+                                                 Color="{StaticResource SecondaryDark}"/>
+                        </Image.Source>
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="DismissImage_Tapped"/>
+                        </Image.GestureRecognizers>
+                    </Image>
                 </Grid>
+            </Frame>
+        </Frame>
 
-                <Image x:Name="image" Grid.Row="2"/>
-
-            </StackLayout>
-        </Grid>
-    </ScrollView>
-    </StackLayout>
+        <Button Grid.Row="2" x:Name="hideBtn" Text="Hide" Clicked="HideClick" 
+                ImageSource="{local:ImageResource StegaXam.Images.hide.png}"
+                BackgroundColor="#88042C" />
+    </Grid>
+    </Grid>
 </ContentPage>

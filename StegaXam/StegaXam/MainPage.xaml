@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="StegaXam.MainPage"
              xmlns:local="clr-namespace:StegaXam;assembly=StegaXam"
-             BackgroundColor="{StaticResource Primary}"
+             Padding="0"
+             xmlns:magic="clr-namespace:MagicGradients;assembly=MagicGradients"
              Title="21Caesar Code">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -14,18 +15,34 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <Grid>
+            <magic:GradientView VerticalOptions="FillAndExpand" Opacity=".2">
+                <magic:GradientView.GradientSource>
+                    <magic:CssGradientSource>
+                        <x:String>
+                            <![CDATA[
+                                        linear-gradient(45deg, rgb(167, 167, 167), rgb(167, 167, 167) 9%,rgb(100, 100, 100) 9%, rgb(50, 50, 50) 13%,rgb(40, 40, 40) 13%, rgb(35, 35, 35) 32%,rgb(20, 20, 20) 32%, rgb(15, 15, 15) 42%)
+                                    ]]>
+                        </x:String>
+                    </magic:CssGradientSource>
+                </magic:GradientView.GradientSource>
+            </magic:GradientView>
+
             <StackLayout VerticalOptions="FillAndExpand" Padding="10">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <!--<Image BackgroundColor="{StaticResource Primary}" 
-                           Source="{local:ImageResource StegaXam.Images.info.png}"/>-->
-                    <Frame Grid.Column="1" BackgroundColor="{StaticResource PrimaryLight}">
-                         <Label FontSize="15">
-                        <Label.FormattedText>
-                            <FormattedString>
+
+                <Frame Grid.Column="1" x:Name="frameInfo" BackgroundColor="{StaticResource PrimaryLight}" Padding="0" WidthRequest="50" HeightRequest="50" HorizontalOptions="Start">
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,0,0,0">
+                            <Image.Source>
+                                <FontImageSource FontFamily="FontAwesome5Solid" Glyph="info-circle" Color="{StaticResource SecondaryLight}"/>
+                            </Image.Source>
+                        </Image>
+                        <Label Grid.Column="1" FontFamily="HammersmithOneRegular" FontSize="15">
+                            <Label.FormattedText>
+                                <FormattedString>
                                     <Span FontAttributes="Bold">21Caesar Code</Span>
                                     <Span Text=" "></Span>
                                     <Span>lets you embed text into image pixels, in unnoticable way</Span>
@@ -33,32 +50,33 @@
                                     <Span>so you can share it with people you communicate with, without eavsdroppers noticing you are sharing secrets.</Span>
                                     <Span Text=" "></Span>
                                     <Span>You can even choose to encrypt the message with a password, and only those who have the password can read it.</Span>
-                            </FormattedString>
-                        </Label.FormattedText>
-                    
-                    
-                </Label>
-                    </Frame>
-                </Grid>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </Grid>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Info_Tapped"/>
+                    </Frame.GestureRecognizers>
+                </Frame>
                 <Grid VerticalOptions="CenterAndExpand" HeightRequest="200">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="5"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Frame BackgroundColor="{StaticResource Secondary}">
+                    <Frame BackgroundColor="#6C0003">
                         <Grid>
                             <Image Source="{local:ImageResource StegaXam.Images.whispering.png}" Opacity=".5"/>
-                            <Label Text="Encode" TextColor="White" FontSize="24" FontAttributes="Bold" VerticalOptions="End" HorizontalOptions="Center"></Label>
+                            <Label Text="ENCODE" FontFamily="HammersmithOneRegular" CharacterSpacing="2" TextColor="White" FontSize="28" FontAttributes="Bold" VerticalOptions="End" HorizontalOptions="Center"></Label>
                         </Grid>
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Tapped="NavToEncode"/>
                         </Frame.GestureRecognizers>
                     </Frame>
-                    <Frame Grid.Column="2" BackgroundColor="{StaticResource Secondary}">
+                    <Frame Grid.Column="2" BackgroundColor="#6C0003">
                         <Grid>
                             <Image Source="{local:ImageResource StegaXam.Images.steganographie.png}" Opacity="0.5"/>
-                            <Label Text="Decode" TextColor="White" FontSize="24" FontAttributes="Bold" VerticalOptions="End" HorizontalOptions="Center"></Label>
+                            <Label Text="DECODE" FontFamily="HammersmithOneRegular" CharacterSpacing="2" FontSize="28" TextColor="White" FontAttributes="Bold" VerticalOptions="End" HorizontalOptions="Center"></Label>
                         </Grid>
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Tapped="NaveToDecode"/>
