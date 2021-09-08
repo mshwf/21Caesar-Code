@@ -57,7 +57,7 @@ namespace StegaXam
             heightAnimation = new Animation(value => frameInfo.HeightRequest = value,
 start: frameInfo.HeightRequest,
 end: 50);
-            infoIconImage.ColorTo((Color)Application.Current.Resources["PrimaryDark"],
+            infoIconImage.ColorTo((Color)Application.Current.Resources["Secondary"],
                 (Color)Application.Current.Resources["PrimaryLight"],
                 c => infoIcon.Color = c, animLength, easing: Easing.CubicOut);
         }
@@ -71,7 +71,7 @@ end: 50);
             heightAnimation = new Animation(value => frameInfo.HeightRequest = value,
     start: frameInfo.HeightRequest,
     end: 200);
-            infoIconImage.ColorTo((Color)Application.Current.Resources["Primary"], 
+            infoIconImage.ColorTo((Color)Application.Current.Resources["PrimaryLight"],
                 (Color)Application.Current.Resources["Secondary"],
                 c => infoIcon.Color = c, animLength, easing: Easing.CubicOut);
         }

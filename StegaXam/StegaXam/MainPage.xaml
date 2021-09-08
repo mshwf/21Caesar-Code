@@ -40,7 +40,7 @@
                                HorizontalOptions="CenterAndExpand">
                             <Image.Source>
                                 <FontImageSource x:Name="infoIcon" FontFamily="FontAwesome5Solid" Glyph="info-circle" 
-                                                 Color="{StaticResource PrimaryDark}"/>
+                                                 Color="{StaticResource PrimaryLight}"/>
                             </Image.Source>
                         </Image>
                         <Label Grid.Column="1" FontFamily="HammersmithOneRegular" FontSize="15" TextColor="{StaticResource PrimaryTextColor}">
