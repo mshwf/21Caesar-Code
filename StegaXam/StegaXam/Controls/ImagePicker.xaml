@@ -2,7 +2,7 @@
 <Frame xmlns="http://xamarin.com/schemas/2014/forms" 
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        x:Class="StegaXam.Controls.ImagePicker"
-       CornerRadius="4" HasShadow="True" BackgroundColor="{StaticResource Primary}" Padding="10">
+       CornerRadius="4" HasShadow="True" BackgroundColor="{StaticResource Primary}" Padding="4">
     <Frame BackgroundColor="{StaticResource Secondary}" CornerRadius="4" HasShadow="False">
         <Grid>
             <Grid>

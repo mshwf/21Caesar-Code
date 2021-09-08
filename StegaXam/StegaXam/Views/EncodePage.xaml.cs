@@ -2,6 +2,7 @@
 using StegaXam.Models;
 using StegaXam.Services;
 using System;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace StegaXam.Views
@@ -16,7 +17,7 @@ namespace StegaXam.Views
         string textToHide;
         int currentChar = 0;
         private IStegImage steg;
-
+        static string filename;
         private async void HideClick(object sender, EventArgs e)
         {
             try
@@ -85,14 +86,37 @@ namespace StegaXam.Views
                     }
                     if (_break) break;
                 }
-                var fileName = DependencyService.Get<IPicture>().SavePictureToDisk("21Caesar", steg.Save());
+                filename = DependencyService.Get<IPicture>().SavePictureToDisk("21Caesar", steg.Save());
                 var pwdMesg = hasPassword ? "they can't read the message without knowing the password, " : null;
                 await DisplayAlert("Your secret has been embeded successfully",
-                    $"You can now share it with anybody, {pwdMesg}the image name: {fileName}", "OK");
+                    $"You can now share it with anybody, {pwdMesg}the image name: {filename}", "OK");
+                btnHide.IsVisible = false;
+                btnShare.IsVisible = true;
             }
             catch (Exception ex)
             {
                 await DisplayAlert("Exception", ex.ToString(), "OK");
+            }
+        }
+
+        private async void Share_Clicked(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(filename))
+                await DisplayAlert("Oops!", "No file found!", "OK");
+
+            await Share.RequestAsync(new ShareFileRequest
+            {
+                Title = "Hello",
+                File = new ShareFile(filename)
+            });
+        }
+
+        private void picker_ImageDataChanged(object sender, EventArgs e)
+        {
+            if (picker.ImageData == null)
+            {
+                btnShare.IsVisible = false;
+                btnHide.IsVisible = true;
             }
         }
     }

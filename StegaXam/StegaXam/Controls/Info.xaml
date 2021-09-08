@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StegaXam.Controls.Info">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Image x:Name="infoIconImage" Grid.Column="0" VerticalOptions="CenterAndExpand" 
+                               HorizontalOptions="CenterAndExpand">
+            <Image.Source>
+                <FontImageSource x:Name="infoIcon" FontFamily="FontAwesome5Solid" Glyph="info-circle" 
+                                                 Color="{StaticResource PrimaryDark}"/>
+            </Image.Source>
+        </Image>
+        <Label Grid.Column="1" FontFamily="HammersmithOneRegular" FontSize="15" TextColor="{StaticResource PrimaryTextColor}">
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span FontAttributes="Bold">21Caesar Code</Span>
+                    <Span Text=" "></Span>
+                    <Span>lets you embed text into image pixels, in unnoticable way</Span>
+                    <Span Text=" "></Span>
+                    <Span>so you can share it with people you communicate with, without eavsdroppers noticing you are sharing secrets.</Span>
+                    <Span Text=" "></Span>
+                    <Span>You can even choose to encrypt the message with a password, and only those who have the password can read it.</Span>
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+    </Grid>
+</ContentView>

@@ -9,11 +9,22 @@ namespace StegaXam.Controls
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ImagePicker : Frame
     {
+        public event EventHandler ImageDataChanged;
+
         public ImagePicker()
         {
             InitializeComponent();
         }
-        public static readonly BindableProperty ImageDataProperty = BindableProperty.Create(nameof(ImageData), typeof(byte[]), typeof(ImagePicker));
+        public static readonly BindableProperty ImageDataProperty = 
+            BindableProperty.Create(nameof(ImageData), typeof(byte[]), typeof(ImagePicker), propertyChanged: ImageDataPropertyChanged);
+
+        private static void ImageDataPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var control = (ImagePicker)bindable;
+
+            control.ImageDataChanged?.Invoke(control, EventArgs.Empty);
+        }
+
         public byte[] ImageData
         {
             get => (byte[])GetValue(ImageDataProperty);

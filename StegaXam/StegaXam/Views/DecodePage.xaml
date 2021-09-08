@@ -37,7 +37,12 @@
                 <Button Text="Reveal" 
                         FontFamily="HammersmithOneRegular" CharacterSpacing="2" FontSize="20"
                         VerticalOptions="EndAndExpand" BackgroundColor="{StaticResource Primary}"
-                        Clicked="RevealMessage_Tapped"/>
+                        Clicked="RevealMessage_Tapped">
+                    <Button.ImageSource>
+                        <FontImageSource Glyph="eye" FontFamily="FontAwesome5Solid" 
+                                     Color="{StaticResource SecondaryDark}"/>
+                    </Button.ImageSource>
+                </Button>
             </StackLayout>
         </Grid>
     </Grid>

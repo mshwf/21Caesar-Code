@@ -36,32 +36,44 @@ namespace StegaXam
             var infoColorAnimation = new Animation();
             if (!isExpanded)
             {
-                widthAnimation = new Animation(value => frameInfo.WidthRequest = value,
-        start: frameInfo.WidthRequest,
-        end: 500);
-
-                heightAnimation = new Animation(value => frameInfo.HeightRequest = value,
-        start: frameInfo.HeightRequest,
-        end: 200);
-                infoIconImage.ColorTo((Color)Application.Current.Resources["PrimaryLight"], (Color)Application.Current.Resources["PrimaryDark"],
-                    c => infoIcon.Color = c, animLength, easing: Easing.CubicOut);
+                Expand(animLength, out widthAnimation, out heightAnimation);
             }
             else
             {
-                widthAnimation = new Animation(value => frameInfo.WidthRequest = value,
-start: frameInfo.WidthRequest,
-end: 50);
-
-                heightAnimation = new Animation(value => frameInfo.HeightRequest = value,
-start: frameInfo.HeightRequest,
-end: 50);
-            infoIconImage.ColorTo((Color)Application.Current.Resources["PrimaryDark"], (Color)Application.Current.Resources["PrimaryLight"], 
-                c => infoIcon.Color = c, animLength, easing: Easing.CubicOut);
-
+                Collapse(animLength, out widthAnimation, out heightAnimation);
             }
+
             frameInfo.Animate("anim", widthAnimation, length: animLength, easing: Easing.CubicOut);
             frameInfo.Animate("anim2", heightAnimation, length: animLength, easing: Easing.CubicOut);
             isExpanded = !isExpanded;
+        }
+
+        private void Collapse(uint animLength, out Animation widthAnimation, out Animation heightAnimation)
+        {
+            widthAnimation = new Animation(value => frameInfo.WidthRequest = value,
+            start: frameInfo.WidthRequest,
+            end: 50);
+
+            heightAnimation = new Animation(value => frameInfo.HeightRequest = value,
+start: frameInfo.HeightRequest,
+end: 50);
+            infoIconImage.ColorTo((Color)Application.Current.Resources["PrimaryDark"],
+                (Color)Application.Current.Resources["PrimaryLight"],
+                c => infoIcon.Color = c, animLength, easing: Easing.CubicOut);
+        }
+
+        private void Expand(uint animLength, out Animation widthAnimation, out Animation heightAnimation)
+        {
+            widthAnimation = new Animation(value => frameInfo.WidthRequest = value,
+    start: frameInfo.WidthRequest,
+    end: 500);
+
+            heightAnimation = new Animation(value => frameInfo.HeightRequest = value,
+    start: frameInfo.HeightRequest,
+    end: 200);
+            infoIconImage.ColorTo((Color)Application.Current.Resources["Primary"], 
+                (Color)Application.Current.Resources["Secondary"],
+                c => infoIcon.Color = c, animLength, easing: Easing.CubicOut);
         }
     }
 }

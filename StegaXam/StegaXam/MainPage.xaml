@@ -29,7 +29,7 @@
 
             <StackLayout VerticalOptions="FillAndExpand" Padding="10">
 
-                <Frame Grid.Column="1" x:Name="frameInfo" BackgroundColor="{StaticResource SecondaryLight}"
+                <Frame Grid.Column="1" x:Name="frameInfo" BackgroundColor="{StaticResource Secondary}"
                        Padding="0" WidthRequest="50" HeightRequest="50" HorizontalOptions="Start">
                     <Grid Margin="10">
                         <Grid.ColumnDefinitions>
@@ -40,7 +40,7 @@
                                HorizontalOptions="CenterAndExpand">
                             <Image.Source>
                                 <FontImageSource x:Name="infoIcon" FontFamily="FontAwesome5Solid" Glyph="info-circle" 
-                                                 Color="{StaticResource PrimaryLight}"/>
+                                                 Color="{StaticResource PrimaryDark}"/>
                             </Image.Source>
                         </Image>
                         <Label Grid.Column="1" FontFamily="HammersmithOneRegular" FontSize="15" TextColor="{StaticResource PrimaryTextColor}">
@@ -86,6 +86,7 @@
                         </Frame.GestureRecognizers>
                     </Frame>
                 </Grid>
+                <Label Text="By: Mohamed Elshawaf" FontSize="10" Opacity=".5"/>
             </StackLayout>
         </Grid>
     </ContentPage.Content>

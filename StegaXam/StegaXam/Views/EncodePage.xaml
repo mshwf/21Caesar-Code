@@ -34,12 +34,26 @@
             <Editor x:Name="entryMsg" TextColor="White" FontFamily="HammersmithOneRegular"
                     Placeholder="Your secret message" PlaceholderColor="#aaA5A5A5"/>
 
-            <controls:ImagePicker x:Name="picker" Grid.Row="1"/>
+            <controls:ImagePicker x:Name="picker" Grid.Row="1" ImageDataChanged="picker_ImageDataChanged"/>
 
-            <Button Grid.Row="2" Text="Hide" Clicked="HideClick" 
-                    ImageSource="{local:ImageResource StegaXam.Images.hide.png}"
+            <Button Grid.Row="2" Text="Hide" x:Name="btnHide" Clicked="HideClick" 
                     BackgroundColor="{StaticResource Primary}"
-                    FontFamily="HammersmithOneRegular" CharacterSpacing="2" FontSize="20"/>
+                    FontFamily="HammersmithOneRegular" CharacterSpacing="2" FontSize="20">
+                <Button.ImageSource>
+                    <FontImageSource Glyph="eye-slash" FontFamily="FontAwesome5Solid" 
+                                     Color="{StaticResource SecondaryDark}"/>
+                </Button.ImageSource>
+            </Button>
+
+            <Button Text="Share" Grid.Row="2" x:Name="btnShare" IsVisible="False" 
+                    BackgroundColor="{StaticResource PrimaryLight}"
+                    FontFamily="HammersmithOneRegular" CharacterSpacing="2" FontSize="20"
+                    Clicked="Share_Clicked">
+                <Button.ImageSource>
+                    <FontImageSource Glyph="share-square" FontFamily="FontAwesome5Regular" 
+                                     Color="{StaticResource SecondaryDark}"/>
+                </Button.ImageSource>
+            </Button>
         </Grid>
     </Grid>
 </ContentPage>
