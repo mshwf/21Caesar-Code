@@ -66,7 +66,7 @@
                     </Grid.ColumnDefinitions>
                     <Frame BackgroundColor="{StaticResource Primary}">
                         <Grid>
-                            <Image Source="{local:ImageResource StegaXam.Images.whispering.png}" Opacity=".5"/>
+                            <Image Source="{local:ImageResource StegaXam.Images.whispering-fill.png}" Opacity=".5"/>
                             <Label Text="ENCODE" FontFamily="HammersmithOneRegular" CharacterSpacing="2" TextColor="White" FontSize="28" FontAttributes="Bold" VerticalOptions="End" HorizontalOptions="Center"></Label>
                         </Grid>
                         <Frame.GestureRecognizers>

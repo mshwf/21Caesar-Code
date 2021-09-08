@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Frame xmlns="http://xamarin.com/schemas/2014/forms" 
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       x:Class="StegaXam.Controls.ImagePicker"
+       CornerRadius="4" HasShadow="True" BackgroundColor="{StaticResource Primary}" Padding="10">
+    <Frame BackgroundColor="{StaticResource Secondary}" CornerRadius="4" HasShadow="False">
+        <Grid>
+            <Grid>
+                <Image x:Name="imageIcon" VerticalOptions="CenterAndExpand">
+                    <Image.Source>
+                        <FontImageSource FontFamily="FontAwesome5Regular" Glyph="image" Size="150"
+                                         Color="{StaticResource PrimaryLight}"/>
+                    </Image.Source>
+                </Image>
+
+                <Image x:Name="image"/>
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnPickPhotoButtonClicked"/>
+                </Grid.GestureRecognizers>
+            </Grid>
+            <Frame x:Name="closeImg" IsVisible="False" BackgroundColor="#af6a6a6a" WidthRequest="20" HeightRequest="20" Padding="8" 
+                   VerticalOptions="Start" HorizontalOptions="End" CornerRadius="50">
+                <Image HorizontalOptions="End" VerticalOptions="Start">
+                    <Image.Source>
+                        <FontImageSource FontFamily="FontAwesome5Regular" Glyph="times-circle"
+                                         Color="{StaticResource PrimaryDark}"/>
+                    </Image.Source>
+                </Image>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="DismissImage_Tapped"/>
+                </Frame.GestureRecognizers>
+            </Frame>
+        </Grid>
+    </Frame>
+</Frame>

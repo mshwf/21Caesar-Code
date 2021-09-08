@@ -2,7 +2,6 @@
 using StegaXam.Models;
 using StegaXam.Services;
 using System;
-using System.IO;
 using Xamarin.Forms;
 
 namespace StegaXam.Views
@@ -12,32 +11,6 @@ namespace StegaXam.Views
         public EncodePage()
         {
             InitializeComponent();
-        }
-        byte[] imageRaw;
-        private async void OnPickPhotoButtonClicked(object sender, EventArgs e)
-        {
-            (sender as VisualElement).IsEnabled = false;
-
-            Stream stream = await DependencyService.Get<IPhotoPickerService>().GetImageStreamAsync();
-            if (stream == null)
-            {
-                (sender as VisualElement).IsEnabled = true;
-                return;
-            }
-            var memoryStream = new MemoryStream();
-            await stream.CopyToAsync(memoryStream);
-            if (stream != null)
-            {
-                image.Source = ImageSource.FromStream(() => new MemoryStream(memoryStream.ToArray()));
-                using (var ms = new MemoryStream())
-                {
-                    //await stream.CopyToAsync(ms);
-                    imageRaw = memoryStream.ToArray();
-                }
-            }
-            (sender as VisualElement).IsEnabled = true;
-            closeImg.IsVisible = true;
-            imageIcon.IsVisible = false;
         }
 
         string textToHide;
@@ -54,7 +27,7 @@ namespace StegaXam.Views
                     await DisplayAlert("What's your message?", "Type the message you wish to hide from enemies", "OK");
                     return;
                 }
-                if (imageRaw == null)
+                if (picker.ImageData == null)
                 {
                     await DisplayAlert("No image selected!", "Pick up an image to hide your message in.", "OK");
                     return;
@@ -73,7 +46,7 @@ namespace StegaXam.Views
                     textToHide = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(textToHide));
                 }
                 steg = DependencyService.Get<IStegImage>();
-                steg.Init(imageRaw);
+                steg.Init(picker.ImageData);
                 if (steg.Width * steg.Height < textToHide.Length + 8)
                 {
                     await DisplayAlert("Oops!", "The image is too small for the message, choose bigger one.", "OK");
@@ -94,10 +67,7 @@ namespace StegaXam.Views
                             else
                             {
                                 byte[] lengthBytes = BitConverter.GetBytes(textToHide.Length);
-                                if (lengthBytes.Length > 4)
-                                    await DisplayAlert("Message is too larg", "Try shrinking the message or encode more photos", "OK");
-                                else
-                                    steg.SetPixel(i, j, new ColorByte(pixel.R, pixel.G, lengthBytes[j - 4]));
+                                steg.SetPixel(i, j, new ColorByte(pixel.R, pixel.G, lengthBytes[j - 4]));
                             }
                             continue;
                         }
@@ -119,25 +89,11 @@ namespace StegaXam.Views
                 var pwdMesg = hasPassword ? "they can't read the message without knowing the password, " : null;
                 await DisplayAlert("Your secret has been embeded successfully",
                     $"You can now share it with anybody, {pwdMesg}the image name: {fileName}", "OK");
-                //hideBtn.IsEnabled = entryMsg.Text.Length > 0 && imageRaw != null;
             }
             catch (Exception ex)
             {
                 await DisplayAlert("Exception", ex.ToString(), "OK");
             }
-        }
-
-        private void EntryMsg_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            //hideBtn.IsEnabled = entryMsg.Text.Length > 0 && imageRaw != null;
-        }
-
-        private void DismissImage_Tapped(object sender, EventArgs e)
-        {
-            image.Source = null;
-            imageRaw = null;
-            imageIcon.IsVisible = true;
-            closeImg.IsVisible = false;
         }
     }
 }

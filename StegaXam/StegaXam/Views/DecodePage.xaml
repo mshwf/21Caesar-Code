@@ -5,7 +5,8 @@
              Title="{Binding Title}"
              xmlns:local="clr-namespace:StegaXam;assembly=StegaXam"
              xmlns:vm="clr-namespace:StegaXam.ViewModels"  
-             xmlns:model="clr-namespace:StegaXam.Models" 
+             xmlns:model="clr-namespace:StegaXam.Models"
+             xmlns:controls="clr-namespace:StegaXam.Controls"
              x:DataType="vm:DecodeViewModel"
               Padding="0"
              xmlns:magic="clr-namespace:MagicGradients;assembly=MagicGradients"
@@ -30,43 +31,13 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
-            <Frame CornerRadius="4" HasShadow="True" BackgroundColor="{StaticResource Primary}" Padding="10">
-                <Frame BackgroundColor="{StaticResource Secondary}" CornerRadius="4" HasShadow="False">
-                    <Grid>
-                        <Grid>
-                            <Image x:Name="imageIcon" VerticalOptions="CenterAndExpand">
-                                <Image.Source>
-                                    <FontImageSource FontFamily="FontAwesome5Regular" Glyph="image" Size="150"
-                                             Color="{StaticResource PrimaryLight}"/>
-                                </Image.Source>
-                            </Image>
-
-                            <Image x:Name="image"/>
-                            <Grid.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="OnPickPhotoButtonClicked"/>
-                            </Grid.GestureRecognizers>
-                        </Grid>
-                        <Frame x:Name="closeImg" IsVisible="False" BackgroundColor="#af6a6a6a" WidthRequest="20" HeightRequest="20" Padding="8" 
-                               VerticalOptions="Start" HorizontalOptions="End" CornerRadius="50">
-                            <Image HorizontalOptions="End" VerticalOptions="Start">
-                                <Image.Source>
-                                    <FontImageSource FontFamily="FontAwesome5Regular" Glyph="times-circle"
-                                                 Color="{StaticResource PrimaryDark}"/>
-                                </Image.Source>
-                                <Image.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="DismissImage_Tapped"/>
-                                </Image.GestureRecognizers>
-                            </Image>
-                        </Frame>
-                    </Grid>
-                </Frame>
-            </Frame>
+            <controls:ImagePicker x:Name="picker"/>
 
             <StackLayout Grid.Row="2">
                 <Button Text="Reveal" 
-                    VerticalOptions="EndAndExpand"
-                    Clicked="RevealMessage_Tapped" BackgroundColor="{StaticResource Primary}"
-                     FontFamily="HammersmithOneRegular" CharacterSpacing="2" FontSize="20"/>
+                        FontFamily="HammersmithOneRegular" CharacterSpacing="2" FontSize="20"
+                        VerticalOptions="EndAndExpand" BackgroundColor="{StaticResource Primary}"
+                        Clicked="RevealMessage_Tapped"/>
             </StackLayout>
         </Grid>
     </Grid>

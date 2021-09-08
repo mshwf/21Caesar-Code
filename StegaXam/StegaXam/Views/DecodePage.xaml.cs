@@ -1,9 +1,7 @@
 ﻿using Steganography;
 using StegaXam.Models;
-using StegaXam.Services;
 using StegaXam.ViewModels;
 using System;
-using System.IO;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -25,34 +23,6 @@ namespace StegaXam.Views
             _viewModel.OnAppearing();
         }
 
-        byte[] imageRaw;
-        private async void OnPickPhotoButtonClicked(object sender, EventArgs e)
-        {
-            (sender as VisualElement).IsEnabled = false;
-
-            Stream stream = await DependencyService.Get<IPhotoPickerService>().GetImageStreamAsync();
-            if (stream == null)
-            {
-                (sender as VisualElement).IsEnabled = true;
-                return;
-            }
-            var memoryStream = new MemoryStream();
-            await stream.CopyToAsync(memoryStream);
-            if (stream != null)
-            {
-                using (var ms = new MemoryStream())
-                {
-                    //await stream.CopyToAsync(ms);
-                    imageRaw = memoryStream.ToArray();
-                    image.Source = ImageSource.FromStream(() => new MemoryStream(imageRaw));
-
-                }
-            }
-            (sender as VisualElement).IsEnabled = true;
-            closeImg.IsVisible = true;
-            imageIcon.IsVisible = false;
-        }
-
         private IStegImage steg;
         bool _break = false;
 
@@ -60,13 +30,13 @@ namespace StegaXam.Views
         {
             try
             {
-                if (imageRaw == null)
+                if (picker.ImageData == null)
                 {
                     await DisplayAlert(null, "First, pick up the photo that contains the secret message", "OK");
                     return;
                 }
                 steg = DependencyService.Get<IStegImage>();
-                steg.Init(imageRaw);
+                steg.Init(picker.ImageData);
 
                 if (!(LengthCheck(steg) && StampCheck(steg) && PasswordCheck(steg)))
                 {
@@ -102,7 +72,7 @@ namespace StegaXam.Views
                     if (string.IsNullOrEmpty(password))
                     {
                         if (password == "")
-                            await DisplayAlert(null, "Password is a required", "OK");
+                            await DisplayAlert(null, "Password is required", "OK");
                         return;
                     }
                     try
@@ -139,13 +109,5 @@ namespace StegaXam.Views
             steg.GetPixel(0, 1).B == App.AppStamp[1] ||
             steg.GetPixel(0, 2).B == App.AppStamp[2];
         private bool PasswordCheck(IStegImage steg) => steg.GetPixel(0, 3).B == 0 || steg.GetPixel(0, 3).B == 1;
-
-        private void DismissImage_Tapped(object sender, EventArgs e)
-        {
-            image.Source = null;
-            imageRaw = null;
-            imageIcon.IsVisible = true;
-            closeImg.IsVisible = false;
-        }
     }
 }
