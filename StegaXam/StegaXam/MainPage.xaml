@@ -29,7 +29,7 @@
 
             <StackLayout VerticalOptions="FillAndExpand" Padding="10">
 
-                <Frame Grid.Column="1" x:Name="frameInfo" BackgroundColor="{StaticResource PrimaryLight}" Padding="0" WidthRequest="50" HeightRequest="50" HorizontalOptions="Start">
+                <Frame Grid.Column="1" x:Name="frameInfo" BackgroundColor="{StaticResource SecondaryLight}" Padding="0" WidthRequest="50" HeightRequest="50" HorizontalOptions="Start">
                     <Grid Margin="10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
@@ -37,10 +37,10 @@
                         </Grid.ColumnDefinitions>
                         <Image Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,0,0,0">
                             <Image.Source>
-                                <FontImageSource FontFamily="FontAwesome5Solid" Glyph="info-circle" Color="{StaticResource SecondaryLight}"/>
+                                <FontImageSource FontFamily="FontAwesome5Solid" Glyph="info-circle" Color="{StaticResource PrimaryLight}"/>
                             </Image.Source>
                         </Image>
-                        <Label Grid.Column="1" FontFamily="HammersmithOneRegular" FontSize="15">
+                        <Label Grid.Column="1" FontFamily="HammersmithOneRegular" FontSize="15" TextColor="{StaticResource PrimaryTextColor}">
                             <Label.FormattedText>
                                 <FormattedString>
                                     <Span FontAttributes="Bold">21Caesar Code</Span>
@@ -64,7 +64,7 @@
                         <ColumnDefinition Width="5"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Frame BackgroundColor="#6C0003">
+                    <Frame BackgroundColor="{StaticResource Primary}">
                         <Grid>
                             <Image Source="{local:ImageResource StegaXam.Images.whispering.png}" Opacity=".5"/>
                             <Label Text="ENCODE" FontFamily="HammersmithOneRegular" CharacterSpacing="2" TextColor="White" FontSize="28" FontAttributes="Bold" VerticalOptions="End" HorizontalOptions="Center"></Label>
@@ -73,7 +73,7 @@
                             <TapGestureRecognizer Tapped="NavToEncode"/>
                         </Frame.GestureRecognizers>
                     </Frame>
-                    <Frame Grid.Column="2" BackgroundColor="#6C0003">
+                    <Frame Grid.Column="2" BackgroundColor="{StaticResource Primary}">
                         <Grid>
                             <Image Source="{local:ImageResource StegaXam.Images.steganographie.png}" Opacity="0.5"/>
                             <Label Text="DECODE" FontFamily="HammersmithOneRegular" CharacterSpacing="2" FontSize="28" TextColor="White" FontAttributes="Bold" VerticalOptions="End" HorizontalOptions="Center"></Label>

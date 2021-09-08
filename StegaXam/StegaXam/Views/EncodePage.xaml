@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:StegaXam;assembly=StegaXam"
              Title="{Binding Title}" Padding="0" 
              xmlns:magic="clr-namespace:MagicGradients;assembly=MagicGradients"
-             BackgroundColor="{StaticResource Primary}">
+             BackgroundColor="{StaticResource Secondary}">
 
     <ContentPage.BindingContext>
         <vm:EncodeViewModel />
@@ -25,50 +25,53 @@
             </magic:GradientView.GradientSource>
         </magic:GradientView>
         <Grid Padding="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="225"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="225"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
             <Editor HeightRequest="225" x:Name="entryMsg" TextColor="White" FontFamily="HammersmithOneRegular"
                 Placeholder="Your secret message"
                 PlaceholderColor="#aaA5A5A5"
                 TextChanged="EntryMsg_TextChanged"/>
 
-        <Frame HasShadow="True" BackgroundColor="{StaticResource SecondaryDark}" Padding="10"
-                        Grid.Row="1" CornerRadius="10">
-            <Frame BackgroundColor="{StaticResource Primary}" CornerRadius="10" HasShadow="False">
-                <Grid>
+            <Frame CornerRadius="4" HasShadow="True" BackgroundColor="{StaticResource Primary}" Padding="10"
+                        Grid.Row="1">
+                <Frame BackgroundColor="{StaticResource Secondary}" CornerRadius="4" HasShadow="False">
                     <Grid>
-                        <Image x:Name="imageIcon"
-                           VerticalOptions="CenterAndExpand">
-                            <Image.Source>
-                                <FontImageSource FontFamily="FontAwesome5Regular" Glyph="image" Size="150"
-                                             Color="{StaticResource SecondaryLight}"/>
-                            </Image.Source>
-                        </Image>
+                        <Grid>
+                            <Image x:Name="imageIcon" VerticalOptions="CenterAndExpand">
+                                <Image.Source>
+                                    <FontImageSource FontFamily="FontAwesome5Regular" Glyph="image" Size="150"
+                                             Color="{StaticResource PrimaryLight}"/>
+                                </Image.Source>
+                            </Image>
 
-                        <Image x:Name="image"/>
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnPickPhotoButtonClicked"/>
-                        </Grid.GestureRecognizers>
+                            <Image x:Name="image"/>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnPickPhotoButtonClicked"/>
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                        <Frame x:Name="closeImg" IsVisible="False" BackgroundColor="#af6a6a6a" WidthRequest="20" HeightRequest="20" Padding="8" 
+                               VerticalOptions="Start" HorizontalOptions="End" CornerRadius="50">
+                            <Image HorizontalOptions="End" VerticalOptions="Start">
+                                <Image.Source>
+                                    <FontImageSource FontFamily="FontAwesome5Regular" Glyph="times-circle"
+                                                 Color="{StaticResource PrimaryDark}"/>
+                                </Image.Source>
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="DismissImage_Tapped"/>
+                                </Image.GestureRecognizers>
+                            </Image>
+                        </Frame>
                     </Grid>
-                    <Image HorizontalOptions="End" VerticalOptions="Start" IsVisible="False" x:Name="closeImg">
-                        <Image.Source>
-                            <FontImageSource FontFamily="FontAwesome5Regular" Glyph="times-circle"
-                                                 Color="{StaticResource SecondaryDark}"/>
-                        </Image.Source>
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="DismissImage_Tapped"/>
-                        </Image.GestureRecognizers>
-                    </Image>
-                </Grid>
+                </Frame>
             </Frame>
-        </Frame>
 
-        <Button Grid.Row="2" x:Name="hideBtn" Text="Hide" Clicked="HideClick" 
+            <Button Grid.Row="2" x:Name="hideBtn" Text="Hide" Clicked="HideClick" 
                 ImageSource="{local:ImageResource StegaXam.Images.hide.png}"
-                BackgroundColor="#88042C" />
-    </Grid>
+                BackgroundColor="{StaticResource Primary}"
+                FontFamily="HammersmithOneRegular" CharacterSpacing="2" FontSize="20"/>
+        </Grid>
     </Grid>
 </ContentPage>

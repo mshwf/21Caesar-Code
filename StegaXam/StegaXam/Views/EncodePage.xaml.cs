@@ -36,6 +36,8 @@ namespace StegaXam.Views
                 }
             }
             (sender as VisualElement).IsEnabled = true;
+            closeImg.IsVisible = true;
+            imageIcon.IsVisible = false;
         }
 
         string textToHide;
@@ -132,7 +134,10 @@ namespace StegaXam.Views
 
         private void DismissImage_Tapped(object sender, EventArgs e)
         {
-
+            image.Source = null;
+            imageRaw = null;
+            imageIcon.IsVisible = true;
+            closeImg.IsVisible = false;
         }
     }
 }

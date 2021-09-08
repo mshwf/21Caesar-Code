@@ -49,7 +49,6 @@ namespace StegaXam.Views
                 }
             }
             (sender as VisualElement).IsEnabled = true;
-            image.IsVisible = true;
             closeImg.IsVisible = true;
             imageIcon.IsVisible = false;
         }

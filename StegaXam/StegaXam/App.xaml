@@ -7,21 +7,21 @@
     -->
     <Application.Resources>
         <ResourceDictionary>
-            <Color x:Key="Primary">#202124</Color>
-            <Color x:Key="PrimaryLight">#47484c</Color>
-            <Color x:Key="PrimaryDark">#000000</Color>
-            <Color x:Key="PrimaryTextColor">#ffffff</Color>
-
-            <Color x:Key="Secondary">#880e4f</Color>
-            <Color x:Key="SecondaryLight">#bc477b</Color>
-            <Color x:Key="SecondaryDark">#560027</Color>
+            <Color x:Key="Secondary">#202124</Color>
+            <Color x:Key="SecondaryLight">#47484c</Color>
+            <Color x:Key="SecondaryDark">#000000</Color>
             <Color x:Key="SecondaryTextColor">#ffffff</Color>
+
+            <Color x:Key="Primary">#88042C</Color>
+            <Color x:Key="PrimaryLight">#BE053D</Color>
+            <Color x:Key="PrimaryDark">#58031D</Color>
+            <Color x:Key="PrimaryTextColor">#ffffff</Color>
             <Style TargetType="NavigationPage">
-                <Setter Property="BarBackgroundColor" Value="{StaticResource Secondary}" />
+                <Setter Property="BarBackgroundColor" Value="{StaticResource Primary}" />
                 <Setter Property="BarTextColor" Value="White" />
             </Style>
             <Style x:Key="BG" TargetType="ContentPage">
-                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryLight}"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource SecondaryLight}"/>
             </Style>
             
             <Style TargetType="Button">
@@ -31,7 +31,7 @@
                         <VisualStateGroup x:Name="CommonStates">
                             <VisualState x:Name="Normal">
                                 <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Secondary}" />
                                 </VisualState.Setters>
                             </VisualState>
                             <VisualState x:Name="Disabled">
