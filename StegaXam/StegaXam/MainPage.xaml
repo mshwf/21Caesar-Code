@@ -35,9 +35,9 @@
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,0,0,0">
+                        <Image x:Name="infoIconImage" Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,0,0,0">
                             <Image.Source>
-                                <FontImageSource FontFamily="FontAwesome5Solid" Glyph="info-circle" Color="{StaticResource PrimaryLight}"/>
+                                <FontImageSource FontFamily="FontAwesome5Solid" Glyph="info-circle" Color="{StaticResource PrimaryLight}" x:Name="infoIcon"/>
                             </Image.Source>
                         </Image>
                         <Label Grid.Column="1" FontFamily="HammersmithOneRegular" FontSize="15" TextColor="{StaticResource PrimaryTextColor}">

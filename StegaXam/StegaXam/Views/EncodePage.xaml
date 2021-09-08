@@ -27,11 +27,11 @@
         </magic:GradientView>
         <Grid Padding="10">
             <Grid.RowDefinitions>
-                <RowDefinition Height="225"/>
+                <RowDefinition Height="175"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <Editor HeightRequest="225" x:Name="entryMsg" TextColor="White" FontFamily="HammersmithOneRegular"
+            <Editor x:Name="entryMsg" TextColor="White" FontFamily="HammersmithOneRegular"
                     Placeholder="Your secret message" PlaceholderColor="#aaA5A5A5"/>
 
             <controls:ImagePicker x:Name="picker" Grid.Row="1"/>

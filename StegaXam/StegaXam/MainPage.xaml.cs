@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using StegaXam.Extensions;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -30,8 +30,10 @@ namespace StegaXam
         bool isExpanded = false;
         private void Info_Tapped(object sender, EventArgs e)
         {
+            uint animLength = 500;
             var widthAnimation = new Animation();
             var heightAnimation = new Animation();
+            var infoColorAnimation = new Animation();
             if (!isExpanded)
             {
                 widthAnimation = new Animation(value => frameInfo.WidthRequest = value,
@@ -41,6 +43,8 @@ namespace StegaXam
                 heightAnimation = new Animation(value => frameInfo.HeightRequest = value,
         start: frameInfo.HeightRequest,
         end: 200);
+                infoIconImage.ColorTo((Color)Application.Current.Resources["PrimaryLight"], (Color)Application.Current.Resources["PrimaryDark"],
+                    c => infoIcon.Color = c, animLength, easing: Easing.CubicOut);
             }
             else
             {
@@ -51,10 +55,12 @@ end: 50);
                 heightAnimation = new Animation(value => frameInfo.HeightRequest = value,
 start: frameInfo.HeightRequest,
 end: 50);
+            infoIconImage.ColorTo((Color)Application.Current.Resources["PrimaryDark"], (Color)Application.Current.Resources["PrimaryLight"], 
+                c => infoIcon.Color = c, animLength, easing: Easing.CubicOut);
 
             }
-            frameInfo.Animate("anim", widthAnimation, length: 500, easing: Easing.CubicOut);
-            frameInfo.Animate("anim2", heightAnimation, length: 500, easing: Easing.CubicOut);
+            frameInfo.Animate("anim", widthAnimation, length: animLength, easing: Easing.CubicOut);
+            frameInfo.Animate("anim2", heightAnimation, length: animLength, easing: Easing.CubicOut);
             isExpanded = !isExpanded;
         }
     }
