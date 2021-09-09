@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using System.IO;
 using Android.Content;
 using Plugin.CurrentActivity;
+using Android.Support.V4.Content;
+using Android.Support.V4.App;
+using Android;
 
 namespace StegaXam.Droid
 {
@@ -26,9 +29,18 @@ namespace StegaXam.Droid
             LoadApplication(new App());
             Instance = this;
             CrossCurrentActivity.Current.Init(this, savedInstanceState);
+            CheckAppPermissions();
 
         }
+        private void CheckAppPermissions()
+        {
+            var activity = CrossCurrentActivity.Current.Activity;
 
+            if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) != (int)Android.Content.PM.Permission.Granted)
+            {
+                ActivityCompat.RequestPermissions(activity, new string[] { Manifest.Permission.WriteExternalStorage }, 1);
+            }
+        }
         // Field, property, and method for Picture Picker
         public static readonly int PickImageId = 1000;
         public TaskCompletionSource<Stream> PickImageTaskCompletionSource { set; get; }

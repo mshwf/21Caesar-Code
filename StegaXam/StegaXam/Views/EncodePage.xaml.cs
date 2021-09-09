@@ -54,8 +54,16 @@ namespace StegaXam.Views
         private async void Share_Clicked(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(filename))
-                await DisplayAlert("Oops!", "No file found!", "OK");
-
+                await DisplayAlert("Oops!", "File not found, please try again.", "OK");
+            Application.Current.Properties.TryGetValue("ShowShareNote", out object showShareNoteObj);
+            if ((bool?)showShareNoteObj != false)
+            {
+                var dontRemind = await DisplayAlert("Important!", "To ensure the integrity of data, share via safe mediums, " +
+                    "that don't manipulate images by reducing their quality. The safest option is using mail services, " +
+                    "while using services like Facebook or WhatsApp will corrupt the encoded data.", "Don't remind me again", "OK");
+                if (dontRemind)
+                    Application.Current.Properties["ShowShareNote"] = false;
+            }
             await Share.RequestAsync(new ShareFileRequest
             {
                 Title = "Hello",

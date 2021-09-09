@@ -16,9 +16,9 @@ namespace StegaXam.Algorithms
             IMetaImage metaImage = DependencyService.Get<IMetaImage>();
 
             bool hasPassword = false;
-            if (password == "")
+            if (string.IsNullOrEmpty(password))
             {
-                secretMessage = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(secretMessage));
+                secretMessage = Convert.ToBase64String(Encoding.UTF8.GetBytes(secretMessage));
             }
             else
             {
