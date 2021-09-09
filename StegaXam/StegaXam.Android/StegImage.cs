@@ -5,10 +5,10 @@ using System.IO;
 using Xamarin.Forms;
 using Color = Android.Graphics.Color;
 
-[assembly: Dependency(typeof(StegImage))]
+[assembly: Dependency(typeof(MetaImage))]
 namespace StegaXam.Droid
 {
-    class StegImage : IStegImage
+    class MetaImage : IMetaImage
     {
         public int Width { get; private set; }
         public int Height { get; private set; }

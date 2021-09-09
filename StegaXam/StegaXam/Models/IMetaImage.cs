@@ -15,7 +15,7 @@ namespace StegaXam.Models
         public int G { get; }
         public int B { get; }
     }
-    public interface IStegImage
+    public interface IMetaImage
     {
         int Width { get; }
         int Height { get; }

@@ -1,9 +1,4 @@
-﻿using StegaXam.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
-/*
+﻿/*
 1. take string from user
 2. take image path from the user
 3. optionally take password, to combine with the encryption algorithm
@@ -20,13 +15,10 @@ using Xamarin.Forms;
 
 namespace StegaXam.Services
 {
-    interface IStega
+    interface ISteganography
     {
-        IStegImage Bury(IStegImage image, string secret);
-    }
-    interface IEncrypt
-    {
-        string Encrypt(string text, string password);
-
+        byte[] Encode(byte[] imageData, string secretMessage, string password);
+        string Decode(byte[] imageData, string password);
+        bool CheckIntegrity(byte[] imageData, out bool hasPassword);
     }
 }
