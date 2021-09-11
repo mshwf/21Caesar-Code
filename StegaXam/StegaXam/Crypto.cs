@@ -6,7 +6,7 @@ using System.IO;
 // resource:
 // https://github.com/Digiex/MCLauncher.NET/blob/master/MCLauncher.net/Crypto.cs
 
-namespace Steganography
+namespace StegaXam
 {
     public class Crypto
     {

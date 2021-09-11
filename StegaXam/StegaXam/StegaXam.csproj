@@ -11,15 +11,9 @@
     <None Remove="Assets\Fonts\FontAwesome5Solid-900.otf" />
     <None Remove="Assets\Fonts\HammersmithOne-Regular.ttf" />
     <None Remove="Assets\Fonts\Viga-Regular.ttf" />
-    <None Remove="Images\detective.png" />
-    <None Remove="Images\hide.png" />
-    <None Remove="Images\icons8-whispering-100.png" />
-    <None Remove="Images\info.png" />
-    <None Remove="Images\photo.png" />
-    <None Remove="Images\save.png" />
-    <None Remove="Images\steganographie.png" />
-    <None Remove="Images\upload.png" />
-    <None Remove="Images\whispering.png" />
+    <None Remove="Assets\Images\icons8-whispering-100.png" />
+    <None Remove="Assets\Images\steganographie.png" />
+    <None Remove="Assets\Images\whispering.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,17 +22,11 @@
     <EmbeddedResource Include="Assets\Fonts\FontAwesome5Solid-900.otf" />
     <EmbeddedResource Include="Assets\Fonts\HammersmithOne-Regular.ttf" />
     <EmbeddedResource Include="Assets\Fonts\Viga-Regular.ttf" />
-    <EmbeddedResource Include="Images\detective.png" />
-    <EmbeddedResource Include="Images\hide.png" />
-    <EmbeddedResource Include="Images\info.png" />
-    <EmbeddedResource Include="Images\photo.png" />
-    <EmbeddedResource Include="Images\save.png" />
-    <EmbeddedResource Include="Images\steganographie.png" />
-    <EmbeddedResource Include="Images\upload.png" />
-    <EmbeddedResource Include="Images\whispering-fill.png">
+    <EmbeddedResource Include="Assets\Images\steganographie.png" />
+    <EmbeddedResource Include="Assets\Images\whispering-fill.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Images\whispering.png" />
+    <EmbeddedResource Include="Assets\Images\whispering.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,7 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\icons8-whispering-100.png" />
+    <Resource Include="Assets\Images\icons8-whispering-100.png" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,4 +1,5 @@
-﻿using StegaXam.Services;
+﻿using StegaXam.Algorithms;
+using StegaXam.Services;
 using StegaXam.Views;
 using System;
 using Xamarin.Forms;
@@ -18,6 +19,8 @@ namespace StegaXam
         {
             InitializeComponent();
             MainPage = new NavigationPage(new MainPage());
+            SteganographyAlgorithm.Register(new SteganographyServiceV1());
+            //SteganographyAlgorithm.Register(new LSBServiceV2());
         }
 
         protected override void OnStart()

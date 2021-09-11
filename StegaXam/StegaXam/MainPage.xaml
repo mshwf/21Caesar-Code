@@ -27,11 +27,11 @@
                 </magic:GradientView.GradientSource>
             </magic:GradientView>
 
-            <StackLayout VerticalOptions="FillAndExpand" Padding="10">
+            <StackLayout VerticalOptions="FillAndExpand" Padding="10" x:Name="stk">
 
                 <Frame Grid.Column="1" x:Name="frameInfo" BackgroundColor="{StaticResource Secondary}"
-                       Padding="0" WidthRequest="50" HeightRequest="50" HorizontalOptions="Start">
-                    <Grid Margin="10">
+                       Padding="0" HorizontalOptions="Start">
+                    <Grid Margin="10" x:Name="grd">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
@@ -43,7 +43,8 @@
                                                  Color="{StaticResource PrimaryLight}"/>
                             </Image.Source>
                         </Image>
-                        <Label Grid.Column="1" FontFamily="HammersmithOneRegular" FontSize="15" TextColor="{StaticResource PrimaryTextColor}">
+                        <Label Grid.Column="1" x:Name="lbInfo"
+                               FontFamily="HammersmithOneRegular" FontSize="15" TextColor="{StaticResource PrimaryTextColor}">
                             <Label.FormattedText>
                                 <FormattedString>
                                     <Span FontAttributes="Bold">21Caesar Code</Span>
@@ -69,7 +70,7 @@
                     </Grid.ColumnDefinitions>
                     <Frame BackgroundColor="{StaticResource Primary}">
                         <Grid>
-                            <Image Source="{local:ImageResource StegaXam.Images.whispering-fill.png}" Opacity=".5"/>
+                            <Image Source="{local:ImageResource StegaXam.Assets.Images.whispering-fill.png}" Opacity=".5"/>
                             <Label Text="ENCODE" FontFamily="HammersmithOneRegular" CharacterSpacing="2" TextColor="White" FontSize="28" FontAttributes="Bold" VerticalOptions="End" HorizontalOptions="Center"></Label>
                         </Grid>
                         <Frame.GestureRecognizers>
@@ -78,7 +79,7 @@
                     </Frame>
                     <Frame Grid.Column="2" BackgroundColor="{StaticResource Primary}">
                         <Grid>
-                            <Image Source="{local:ImageResource StegaXam.Images.steganographie.png}" Opacity="0.5"/>
+                            <Image Source="{local:ImageResource StegaXam.Assets.Images.steganographie.png}" Opacity="0.5"/>
                             <Label Text="DECODE" FontFamily="HammersmithOneRegular" CharacterSpacing="2" FontSize="28" TextColor="White" FontAttributes="Bold" VerticalOptions="End" HorizontalOptions="Center"></Label>
                         </Grid>
                         <Frame.GestureRecognizers>
@@ -86,7 +87,10 @@
                         </Frame.GestureRecognizers>
                     </Frame>
                 </Grid>
-                <Label Text="By: Mohamed Elshawaf" FontSize="10" Opacity=".5"/>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="By: Mohamed Elshawaf" FontSize="10" Opacity=".5"/>
+                    <Label x:Name="txtVersion" FontSize="10" Opacity=".5" HorizontalOptions="EndAndExpand"/>
+                </StackLayout> 
             </StackLayout>
         </Grid>
     </ContentPage.Content>

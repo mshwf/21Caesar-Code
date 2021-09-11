@@ -4,13 +4,13 @@ using Android.Net;
 using Android.OS;
 using Android.Support.V4.App;
 using Android.Support.V4.Content;
-using Java.IO;
 using Plugin.CurrentActivity;
 using StegaXam.Droid;
 using StegaXam.Services;
 using System.IO;
+using Xamarin.Forms;
 
-[assembly: Xamarin.Forms.Dependency(typeof(Picture_Droid))]
+[assembly: Dependency(typeof(Picture_Droid))]
 namespace StegaXam.Droid
 {
     public class Picture_Droid : IPicture

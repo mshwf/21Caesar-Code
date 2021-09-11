@@ -1,10 +1,6 @@
 ﻿using StegaXam.Views;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using StegaXam.Extensions;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -17,6 +13,21 @@ namespace StegaXam
         {
             InitializeComponent();
         }
+        protected override void OnAppearing()
+        {
+            Application.Current.Properties.TryGetValue(AppConstants.FirstVisit, out object firstVisit);
+            if ((bool?)firstVisit != false)
+            {
+                Application.Current.Properties[AppConstants.FirstVisit] = false;
+            }
+            //else
+            //{
+            //    AnimateInfoSection();
+            //}
+
+            txtVersion.Text = $"Version: {Xamarin.Essentials.VersionTracking.CurrentVersion}";
+            base.OnAppearing();
+        }
 
         private void NaveToDecode(object sender, EventArgs e)
         {
@@ -27,24 +38,27 @@ namespace StegaXam
         {
             Navigation.PushAsync(new EncodePage());
         }
-        bool isExpanded = false;
         private void Info_Tapped(object sender, EventArgs e)
         {
+            AnimateInfoSection();
+        }
+        static Size? fSize = null;
+        bool isExpanded = true;
+        private void AnimateInfoSection()
+        {
+            if (fSize == null)
+                fSize = new Size(frameInfo.Width, frameInfo.Height);
+            var size = fSize.Value;
             uint animLength = 500;
-            var widthAnimation = new Animation();
-            var heightAnimation = new Animation();
-            var infoColorAnimation = new Animation();
+            Animation widthAnimation;
+            Animation heightAnimation;
             if (!isExpanded)
-            {
-                Expand(animLength, out widthAnimation, out heightAnimation);
-            }
+                Expand(animLength, size, out widthAnimation, out heightAnimation);
             else
-            {
                 Collapse(animLength, out widthAnimation, out heightAnimation);
-            }
 
-            frameInfo.Animate("anim", widthAnimation, length: animLength, easing: Easing.CubicOut);
-            frameInfo.Animate("anim2", heightAnimation, length: animLength, easing: Easing.CubicOut);
+            frameInfo.Animate("w_anim", widthAnimation, length: animLength, easing: Easing.CubicOut);
+            frameInfo.Animate("h_anim", heightAnimation, length: animLength, easing: Easing.CubicOut);
             isExpanded = !isExpanded;
         }
 
@@ -62,15 +76,15 @@ end: 50);
                 c => infoIcon.Color = c, animLength, easing: Easing.CubicOut);
         }
 
-        private void Expand(uint animLength, out Animation widthAnimation, out Animation heightAnimation)
+        private void Expand(uint animLength, Size size, out Animation widthAnimation, out Animation heightAnimation)
         {
             widthAnimation = new Animation(value => frameInfo.WidthRequest = value,
     start: frameInfo.WidthRequest,
-    end: 500);
+    end: size.Width);
 
             heightAnimation = new Animation(value => frameInfo.HeightRequest = value,
     start: frameInfo.HeightRequest,
-    end: 200);
+    end: size.Height);
             infoIconImage.ColorTo((Color)Application.Current.Resources["PrimaryLight"],
                 (Color)Application.Current.Resources["Secondary"],
                 c => infoIcon.Color = c, animLength, easing: Easing.CubicOut);

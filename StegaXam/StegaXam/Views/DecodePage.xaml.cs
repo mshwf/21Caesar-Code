@@ -1,7 +1,7 @@
-﻿using StegaXam.Algorithms;
-using StegaXam.Services;
+﻿using StegaXam.Services;
 using StegaXam.ViewModels;
 using System;
+using System.Security.Cryptography;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -10,13 +10,11 @@ namespace StegaXam.Views
     public partial class DecodePage : ContentPage
     {
         DecodeViewModel _viewModel;
-        readonly ISteganography stega;
 
         public DecodePage()
         {
             InitializeComponent();
             BindingContext = _viewModel = new DecodeViewModel();
-            stega = new SteganographyServiceV1();
         }
 
         protected override void OnAppearing()
@@ -34,15 +32,15 @@ namespace StegaXam.Views
                     await DisplayAlert(null, "First, pick up the photo that contains the secret message", "OK");
                     return;
                 }
-                var valid = stega.CheckIntegrity(picker.ImageData, out bool hasPassword);
-                if (!valid)
+                var algo = SteganographyAlgorithm.Build(picker.ImageData);
+                if (algo == null)
                 {
                     await DisplayAlert("No secrets", "No secrets can be found in this image", "OK");
                     return;
                 }
-                string password = "";
+                string password = string.Empty;
 
-                if (hasPassword)
+                if (algo.Header.HasPassword)
                 {
                     password = await DisplayPromptAsync("Password required", null);
                     if (string.IsNullOrEmpty(password))
@@ -51,10 +49,10 @@ namespace StegaXam.Views
                         return;
                     }
                 }
-                string secret = "";
+                string secret = string.Empty;
                 try
                 {
-                    secret = stega.Decode(picker.ImageData, password);
+                    secret = algo.Decode(password);
                 }
                 catch (IncorrectPasswordException)
                 {
@@ -63,8 +61,7 @@ namespace StegaXam.Views
                 }
 
                 bool copy = await DisplayAlert("👁", secret, "Copy", "Cancel");
-                if (copy)
-                    await Clipboard.SetTextAsync(secret);
+                if (copy) await Clipboard.SetTextAsync(secret);
             }
             catch (Exception ex)
             {
