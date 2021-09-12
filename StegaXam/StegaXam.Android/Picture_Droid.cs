@@ -26,7 +26,9 @@ namespace StegaXam.Droid
             try
             {
                 CheckAppPermissions();
-                var pathToNewFolder = Environment.ExternalStorageDirectory.AbsolutePath + "/21Caesar";
+                var pathToNewFolderx = _context.GetExternalMediaDirs()[0].AbsolutePath;
+
+                var pathToNewFolder = pathToNewFolderx + "/21Caesar";
                 Directory.CreateDirectory(pathToNewFolder);
 
                 //adding a time stamp time file name to allow saving more than one image... otherwise it overwrites the previous saved image of the same name  

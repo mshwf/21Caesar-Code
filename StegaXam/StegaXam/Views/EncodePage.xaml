@@ -25,7 +25,7 @@
                 </magic:CssGradientSource>
             </magic:GradientView.GradientSource>
         </magic:GradientView>
-        <Grid Padding="10">
+        <Grid Padding="10" x:Name="grd">
             <Grid.RowDefinitions>
                 <RowDefinition Height="175"/>
                 <RowDefinition Height="*"/>
@@ -55,5 +55,7 @@
                 </Button.ImageSource>
             </Button>
         </Grid>
+        <ActivityIndicator Color="LightPink" x:Name="loader"
+                           WidthRequest="50" HeightRequest="70" VerticalOptions="Center"/>
     </Grid>
 </ContentPage>

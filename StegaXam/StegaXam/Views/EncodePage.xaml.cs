@@ -1,5 +1,6 @@
 ﻿using StegaXam.Services;
 using System;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -34,14 +35,23 @@ namespace StegaXam.Views
 
                 string password = await DisplayPromptAsync("Password?", "Enter a password, or leave empty to embed the message in plain (not encrypted)");
                 if (password == null) return;
-                var imageData = steganographyAlgorithm.Encode(picker.ImageData, textToHide, password);
+                loader.IsRunning = true;
+                grd.IsEnabled = false;
+                var imageData = await Task.Run(() => steganographyAlgorithm.Encode(picker.ImageData, textToHide, password));
+                loader.IsRunning = false;
+                grd.IsEnabled = true;
 
                 filename = DependencyService.Get<IPicture>().SavePictureToDisk("21Caesar", imageData);
-                var pwdMesg = password != "" ? "they can't read the message without knowing the password, " : null;
-                await DisplayAlert("Your secret has been embeded successfully",
-                    $"You can now share it with anybody, {pwdMesg}the image name: {filename}", "OK");
-                btnHide.IsVisible = false;
-                btnShare.IsVisible = true;
+                if (string.IsNullOrEmpty(filename))
+                    await DisplayAlert("Oops!", "Image couldn't be saved.", "OK");
+                else
+                {
+                    var pwdMesg = password != "" ? "they can't read the message without knowing the password, " : null;
+                    await DisplayAlert("Your secret has been embeded successfully",
+                        $"You can now share it with anybody, {pwdMesg}the image name: {filename}", "OK");
+                    btnHide.IsVisible = false;
+                    btnShare.IsVisible = true;
+                }
             }
             catch (TooSmallImageException)
             {

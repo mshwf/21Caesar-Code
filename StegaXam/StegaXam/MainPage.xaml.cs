@@ -15,14 +15,14 @@ namespace StegaXam
         }
         protected override void OnAppearing()
         {
-            Application.Current.Properties.TryGetValue(AppConstants.FirstVisit, out object firstVisit);
-            if ((bool?)firstVisit != false)
-            {
-                Application.Current.Properties[AppConstants.FirstVisit] = false;
-            }
-            //else
+            //Application.Current.Properties.TryGetValue(AppConstants.FirstVisit, out object firstVisit);
+            //if ((bool?)firstVisit != false)
             //{
-            //    AnimateInfoSection();
+            //    Application.Current.Properties[AppConstants.FirstVisit] = false;
+            //}
+            //else if (isExpanded)
+            //{
+            //    AnimateInfoSection(false);
             //}
 
             txtVersion.Text = $"Version: {Xamarin.Essentials.VersionTracking.CurrentVersion}";
@@ -44,18 +44,23 @@ namespace StegaXam
         }
         static Size? fSize = null;
         bool isExpanded = true;
+        static Color primaryLight = (Color)Application.Current.Resources["PrimaryLight"];
+        static Color secondary = (Color)Application.Current.Resources["Secondary"];
         private void AnimateInfoSection()
         {
-            if (fSize == null)
-                fSize = new Size(frameInfo.Width, frameInfo.Height);
+            if (fSize == null) return;
             var size = fSize.Value;
             uint animLength = 500;
             Animation widthAnimation;
             Animation heightAnimation;
             if (!isExpanded)
+            {
                 Expand(animLength, size, out widthAnimation, out heightAnimation);
+            }
             else
+            {
                 Collapse(animLength, out widthAnimation, out heightAnimation);
+            }
 
             frameInfo.Animate("w_anim", widthAnimation, length: animLength, easing: Easing.CubicOut);
             frameInfo.Animate("h_anim", heightAnimation, length: animLength, easing: Easing.CubicOut);
@@ -65,15 +70,13 @@ namespace StegaXam
         private void Collapse(uint animLength, out Animation widthAnimation, out Animation heightAnimation)
         {
             widthAnimation = new Animation(value => frameInfo.WidthRequest = value,
-            start: frameInfo.WidthRequest,
-            end: 50);
+                        start: frameInfo.Width,
+                        end: 50);
 
             heightAnimation = new Animation(value => frameInfo.HeightRequest = value,
-start: frameInfo.HeightRequest,
-end: 50);
-            infoIconImage.ColorTo((Color)Application.Current.Resources["Secondary"],
-                (Color)Application.Current.Resources["PrimaryLight"],
-                c => infoIcon.Color = c, animLength, easing: Easing.CubicOut);
+                        start: frameInfo.Height,
+                        end: 50);
+            infoIconImage.ColorTo(secondary, primaryLight, c => infoIcon.Color = c, animLength, easing: Easing.CubicOut);
         }
 
         private void Expand(uint animLength, Size size, out Animation widthAnimation, out Animation heightAnimation)
@@ -85,9 +88,13 @@ end: 50);
             heightAnimation = new Animation(value => frameInfo.HeightRequest = value,
     start: frameInfo.HeightRequest,
     end: size.Height);
-            infoIconImage.ColorTo((Color)Application.Current.Resources["PrimaryLight"],
-                (Color)Application.Current.Resources["Secondary"],
-                c => infoIcon.Color = c, animLength, easing: Easing.CubicOut);
+            infoIconImage.ColorTo(primaryLight, secondary, c => infoIcon.Color = c, animLength, easing: Easing.CubicOut);
+        }
+
+        private void frameInfo_SizeChanged(object sender, EventArgs e)
+        {
+            if (fSize == null)
+                fSize = new Size(frameInfo.Width, frameInfo.Height);
         }
     }
 }
