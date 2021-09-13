@@ -9,15 +9,18 @@ using Plugin.CurrentActivity;
 using Android.Support.V4.Content;
 using Android.Support.V4.App;
 using Android;
+using Xamarin.Forms;
 
 namespace StegaXam.Droid
 {
-    [Activity(Label = "21Caesar Code", Icon = "@mipmap/logo", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+    [Activity(Label = "21Caesar Code", Icon = "@mipmap/logo", Theme = "@style/MainTheme", MainLauncher = true,
+        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize,
+        Name = "com.mshawaf.x21caesarcode.MainActivity")]
+    public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         internal static MainActivity Instance { get; private set; }
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override async void OnCreate(Bundle savedInstanceState)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
@@ -25,8 +28,14 @@ namespace StegaXam.Droid
             base.OnCreate(savedInstanceState);
             Picture_Droid.Init(this);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
+
+            if (Intent.ActionSend.Equals(Intent.Action) && Intent.Type != null && Intent.Type.StartsWith("image/"))
+            {
+                await ImageDispatcher.HandleSendImage(ContentResolver, Intent, "Encode");
+                //HandleSendImages();
+            }
             Instance = this;
             CrossCurrentActivity.Current.Init(this, savedInstanceState);
             CheckAppPermissions();
@@ -70,6 +79,71 @@ namespace StegaXam.Droid
                 {
                     PickImageTaskCompletionSource.SetResult(null);
                 }
+            }
+        }
+
+
+        private async void HandleSendImages()
+        {
+
+            Android.Net.Uri imageUri = (Android.Net.Uri)Intent.GetParcelableExtra(Intent.ExtraStream);
+            if (imageUri != null)
+            {
+
+                Stream stream = ContentResolver.OpenInputStream(imageUri);
+                byte[] byteArray;
+
+                using (var memoryStream = new MemoryStream())
+                {
+                    stream.CopyTo(memoryStream);
+                    byteArray = memoryStream.ToArray();
+                    await Xamarin.Forms.Application.Current.MainPage.Navigation.PushModalAsync(new Views.EncodePage(byteArray));
+                    //FinishAndRemoveTask();
+                    //FinishAffinity();
+                }
+            }
+
+            //var view = new LinearLayout(this) { Orientation = Orientation.Vertical };
+            //var url = Intent.GetStringExtra(Intent.ExtraText);
+
+            //var urlTextView = new TextView(this) { Gravity = GravityFlags.Center };
+            //urlTextView.Text = url;
+
+            //view.AddView(urlTextView);
+            //var description = new EditText(this) { Gravity = GravityFlags.Top };
+            //view.AddView(description);
+
+            //new AlertDialog.Builder(this)
+            //         .SetTitle("Save a URL Link")
+            //         .SetMessage("Type a description for your link")
+            //         .SetView(view)
+            //         .SetPositiveButton("Add", (dialog, whichButton) =>
+            //         {
+            //             var desc = description.Text;
+            //        //Save off the url and description here
+            //        //Remove dialog and navigate back to app or browser that shared                 
+            //        //the link
+            //        FinishAndRemoveTask();
+            //             FinishAffinity();
+            //         })
+            //         .Show();
+        }
+    }
+
+
+    [Activity(Name = "com.mshawaf.x21caesarcode.DecodeActivity")]
+    public class DecodeActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+    {
+        protected override async void OnCreate(Bundle savedInstanceState)
+        {
+            base.OnCreate(savedInstanceState);
+            Picture_Droid.Init(this);
+            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
+            Forms.Init(this, savedInstanceState);
+            LoadApplication(new App());
+            if (Intent.ActionSend.Equals(Intent.Action) && Intent.Type != null && Intent.Type.StartsWith("image/"))
+            {
+                await ImageDispatcher.HandleSendImage(ContentResolver, Intent, "Decode");
             }
         }
     }

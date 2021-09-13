@@ -17,6 +17,11 @@ namespace StegaXam.Views
             BindingContext = _viewModel = new DecodeViewModel();
         }
 
+        public DecodePage(byte[] imageData) : this()
+        {
+            picker.LoadImage(imageData);
+        }
+
         protected override void OnAppearing()
         {
             base.OnAppearing();

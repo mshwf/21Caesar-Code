@@ -15,6 +15,11 @@ namespace StegaXam.Views
             steganographyAlgorithm = SteganographyAlgorithm.GetLastVersion();
         }
 
+        public EncodePage(byte[] imageData) : this()
+        {
+            picker.LoadImage(imageData);
+        }
+
         string textToHide;
         static string filename;
         private async void HideClick(object sender, EventArgs e)

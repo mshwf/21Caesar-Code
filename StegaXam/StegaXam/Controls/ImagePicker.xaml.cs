@@ -1,6 +1,7 @@
 ﻿using StegaXam.Services;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,13 +16,13 @@ namespace StegaXam.Controls
         {
             InitializeComponent();
         }
-        public static readonly BindableProperty ImageDataProperty = 
+        public static readonly BindableProperty ImageDataProperty =
             BindableProperty.Create(nameof(ImageData), typeof(byte[]), typeof(ImagePicker), propertyChanged: ImageDataPropertyChanged);
 
         private static void ImageDataPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var control = (ImagePicker)bindable;
-
+            //control.image.Source = ImageSource.FromStream(() => new MemoryStream(control.ImageData));
             control.ImageDataChanged?.Invoke(control, EventArgs.Empty);
         }
 
@@ -33,12 +34,12 @@ namespace StegaXam.Controls
 
         private async void OnPickPhotoButtonClicked(object sender, EventArgs e)
         {
-            (sender as VisualElement).IsEnabled = false;
+            grdContainer.IsEnabled = false;
 
             Stream stream = await DependencyService.Get<IPhotoPickerService>().GetImageStreamAsync();
             if (stream == null)
             {
-                (sender as VisualElement).IsEnabled = true;
+                grdContainer.IsEnabled = true;
                 return;
             }
             var memoryStream = new MemoryStream();
@@ -48,11 +49,18 @@ namespace StegaXam.Controls
                 using (var ms = new MemoryStream())
                 {
                     //await stream.CopyToAsync(ms);
-                    ImageData = memoryStream.ToArray();
-                    image.Source = ImageSource.FromStream(() => new MemoryStream(ImageData));
+                    LoadImage(memoryStream.ToArray());
                 }
             }
-            (sender as VisualElement).IsEnabled = true;
+            grdContainer.IsEnabled = true;
+        }
+
+        public void LoadImage(byte[] imageData)
+        {
+            ImageData = imageData;
+            image.Source = ImageSource.FromStream(() => new MemoryStream(ImageData));
+
+            grdContainer.IsEnabled = true;
             closeImg.IsVisible = true;
             imageIcon.IsVisible = false;
         }

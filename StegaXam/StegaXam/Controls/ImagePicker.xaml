@@ -5,7 +5,7 @@
        CornerRadius="4" HasShadow="True" BackgroundColor="{StaticResource Primary}" Padding="4">
     <Frame BackgroundColor="{StaticResource Secondary}" CornerRadius="4" HasShadow="False">
         <Grid>
-            <Grid>
+            <Grid x:Name="grdContainer">
                 <Image x:Name="imageIcon" VerticalOptions="CenterAndExpand">
                     <Image.Source>
                         <FontImageSource FontFamily="FontAwesome5Regular" Glyph="image" Size="150"
