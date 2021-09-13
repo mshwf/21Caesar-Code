@@ -41,10 +41,8 @@ namespace StegaXam.Views
                 string password = await DisplayPromptAsync("Password?", "Enter a password, or leave empty to embed the message in plain (not encrypted)");
                 if (password == null) return;
                 loader.IsRunning = true;
-                grd.IsEnabled = false;
                 var imageData = await Task.Run(() => steganographyAlgorithm.Encode(picker.ImageData, textToHide, password));
                 loader.IsRunning = false;
-                grd.IsEnabled = true;
 
                 filename = DependencyService.Get<IPicture>().SavePictureToDisk("21Caesar", imageData);
                 if (string.IsNullOrEmpty(filename))

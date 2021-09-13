@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.mshawaf.x21caesarcode" android:installLocation="auto">
   <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="30" />
-  <application android:label="21Caesar Code" android:theme="@style/MainTheme" android:icon="@mipmap/logo">
+  <application android:label="21Caesar Code" android:theme="@style/MainTheme" android:icon="@mipmap/logo" 
+               android:requestLegacyExternalStorage="true">
 
     <activity android:name="MainActivity" android:label="@string/ENCODE">
       <intent-filter>

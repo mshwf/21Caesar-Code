@@ -83,11 +83,12 @@
   <ItemGroup>
     <Compile Include="ImageDispatcher.cs" />
     <Compile Include="MainActivity.cs" />
-    <Compile Include="PhotoPickerService.cs" />
-    <Compile Include="Picture_Droid.cs" />
+    <Compile Include="Services\MessageAndroid.cs" />
+    <Compile Include="Services\PhotoPickerService.cs" />
+    <Compile Include="Services\PictureSaver.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MetaImage.cs" />
+    <Compile Include="Services\MetaImage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

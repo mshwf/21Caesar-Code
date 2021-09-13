@@ -10,6 +10,7 @@ using Android.Support.V4.Content;
 using Android.Support.V4.App;
 using Android;
 using Xamarin.Forms;
+using System;
 
 namespace StegaXam.Droid
 {
@@ -26,7 +27,6 @@ namespace StegaXam.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
-            Picture_Droid.Init(this);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
@@ -63,22 +63,30 @@ namespace StegaXam.Droid
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent intent)
         {
-            base.OnActivityResult(requestCode, resultCode, intent);
-
-            if (requestCode == PickImageId)
+            try
             {
-                if ((resultCode == Result.Ok) && (intent != null))
-                {
-                    Android.Net.Uri uri = intent.Data;
-                    Stream stream = ContentResolver.OpenInputStream(uri);
+                base.OnActivityResult(requestCode, resultCode, intent);
 
-                    // Set the Stream as the completion of the Task
-                    PickImageTaskCompletionSource.SetResult(stream);
-                }
-                else
+                if (requestCode == PickImageId)
                 {
-                    PickImageTaskCompletionSource.SetResult(null);
+                    if ((resultCode == Result.Ok) && (intent != null))
+                    {
+                        Android.Net.Uri uri = intent.Data;
+                        Stream stream = ContentResolver.OpenInputStream(uri);
+
+                        // Set the Stream as the completion of the Task
+                        PickImageTaskCompletionSource.SetResult(stream);
+                    }
+                    else
+                    {
+                        PickImageTaskCompletionSource.SetResult(null);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                PickImageTaskCompletionSource.SetResult(null);
+                Android.Widget.Toast.MakeText(this, "Can't retrieve image, check the path", Android.Widget.ToastLength.Long).Show();
             }
         }
 
@@ -137,7 +145,6 @@ namespace StegaXam.Droid
         protected override async void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            Picture_Droid.Init(this);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             Forms.Init(this, savedInstanceState);
             LoadApplication(new App());

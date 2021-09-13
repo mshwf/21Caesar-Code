@@ -55,7 +55,6 @@
                 </Button.ImageSource>
             </Button>
         </Grid>
-        <ActivityIndicator Color="LightPink" x:Name="loader"
-                           WidthRequest="50" HeightRequest="70" VerticalOptions="Center"/>
+        <controls:Loader x:Name="loader"/>
     </Grid>
 </ContentPage>
