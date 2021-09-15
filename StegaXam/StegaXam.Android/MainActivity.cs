@@ -30,11 +30,10 @@ namespace StegaXam.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
-
-            if (Intent.ActionSend.Equals(Intent.Action) && Intent.Type != null && Intent.Type.StartsWith("image/"))
+            bool fromDecode = GetType().Name == nameof(DecodeActivity);
+            if (Intent.ActionSend.Equals(Intent.Action) && Intent.Type != null && Intent.Type.StartsWith("image/") && !fromDecode)
             {
                 await ImageDispatcher.HandleSendImage(ContentResolver, Intent, "Encode");
-                //HandleSendImages();
             }
             Instance = this;
             CrossCurrentActivity.Current.Init(this, savedInstanceState);
@@ -45,7 +44,7 @@ namespace StegaXam.Droid
         {
             var activity = CrossCurrentActivity.Current.Activity;
 
-            if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) != (int)Android.Content.PM.Permission.Granted)
+            if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) != (int)Permission.Granted)
             {
                 ActivityCompat.RequestPermissions(activity, new string[] { Manifest.Permission.WriteExternalStorage }, 1);
             }
@@ -140,14 +139,11 @@ namespace StegaXam.Droid
 
 
     [Activity(Name = "com.mshawaf.x21caesarcode.DecodeActivity")]
-    public class DecodeActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+    public class DecodeActivity : MainActivity
     {
         protected override async void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            Forms.Init(this, savedInstanceState);
-            LoadApplication(new App());
             if (Intent.ActionSend.Equals(Intent.Action) && Intent.Type != null && Intent.Type.StartsWith("image/"))
             {
                 await ImageDispatcher.HandleSendImage(ContentResolver, Intent, "Decode");
