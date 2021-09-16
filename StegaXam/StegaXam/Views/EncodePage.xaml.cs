@@ -20,13 +20,12 @@ namespace StegaXam.Views
             picker.LoadImage(imageData);
         }
 
-        string textToHide;
         static string filename;
         private async void HideClick(object sender, EventArgs e)
         {
             try
             {
-                textToHide = entryMsg.Text;
+                string textToHide = entryMsg.Text;
                 if (string.IsNullOrEmpty(textToHide))
                 {
                     await DisplayAlert("What's your message?", "Type the message you wish to hide from enemies", "OK");

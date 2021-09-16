@@ -1,7 +1,6 @@
 ﻿using StegaXam.Services;
 using StegaXam.ViewModels;
 using System;
-using System.Security.Cryptography;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 

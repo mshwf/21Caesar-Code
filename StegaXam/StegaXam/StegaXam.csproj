@@ -6,22 +6,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Assets\Fonts\CarterOne-Regular.ttf" />
     <None Remove="Assets\Fonts\FontAwesome5Regular-400.otf" />
     <None Remove="Assets\Fonts\FontAwesome5Solid-900.otf" />
     <None Remove="Assets\Fonts\HammersmithOne-Regular.ttf" />
-    <None Remove="Assets\Fonts\Viga-Regular.ttf" />
     <None Remove="Assets\Images\icons8-whispering-100.png" />
     <None Remove="Assets\Images\steganographie.png" />
     <None Remove="Assets\Images\whispering.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Assets\Fonts\CarterOne-Regular.ttf" />
     <EmbeddedResource Include="Assets\Fonts\FontAwesome5Regular-400.otf" />
     <EmbeddedResource Include="Assets\Fonts\FontAwesome5Solid-900.otf" />
     <EmbeddedResource Include="Assets\Fonts\HammersmithOne-Regular.ttf" />
-    <EmbeddedResource Include="Assets\Fonts\Viga-Regular.ttf" />
     <EmbeddedResource Include="Assets\Images\steganographie.png" />
     <EmbeddedResource Include="Assets\Images\whispering-fill.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
