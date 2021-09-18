@@ -2,29 +2,32 @@
 
 namespace StegaXam.Models
 {
-    //[3 (Stamp) | 1 (hasPassword) | 4 (msgLength) | 1 (Version)]
+    //[6 (Stamp) | 1 (hasPassword) | 4 (msgLength) | 1 (Version)]
     class HeaderMetaData
     {
-        public int AppStamp { get; set; }//3
+        public long AppStamp { get; set; }//6
         public bool HasPassword { get; set; }//1
         public int MessageLength { get; set; }//4
         public int AlgorithmVersion { get; set; }//1
-        public const int Size = 9;
 
-        public static byte[] ToArray(bool hasPassword, int msgLength, int version)
+        public const int Size = 12;
+
+        public static byte[] BuildHeader(bool hasPassword, int msgLength, int version)
         {
+            var passwordByte = (byte)(hasPassword ? 1 : 0);
+            var msgLengthBytes = BitConverter.GetBytes(msgLength);
             byte[] header = new byte[Size];
             Array.Copy(App.AppStamp, header, App.AppStamp.Length);
-            header[App.AppStamp.Length] = (byte)(hasPassword ? 1 : 0);
-            Array.Copy(BitConverter.GetBytes(msgLength), 0, header, 4, 4);
-            header[8] = (byte)version;
+            header[App.AppStamp.Length] = passwordByte;
+            Array.Copy(msgLengthBytes, 0, header, App.AppStamp.Length + 1, msgLengthBytes.Length);
+            header[Size - 1] = (byte)version;
             return header;
         }
 
         public static HeaderMetaData CheckHeader(IMetaImage metaImage)
         {
             int iteration = 0;
-            byte[] appStamp = new byte[3];
+            byte[] appStamp = new byte[App.AppStamp.Length];
             byte? hasPassword = null;
             byte? version = null;
             byte[] messageLength = new byte[4];
@@ -37,12 +40,12 @@ namespace StegaXam.Models
                     {
                         var pixel = metaImage.GetPixel(i, j);
 
-                        if (iteration < 3)
+                        if (iteration < App.AppStamp.Length)
                             appStamp[iteration] = (byte)pixel.B;
-                        else if (iteration == 3)
+                        else if (iteration == App.AppStamp.Length)
                             hasPassword = (byte)pixel.B;
-                        else if (iteration > 3 && iteration < 8)
-                            messageLength[iteration - 4] = (byte)pixel.B;
+                        else if (iteration > App.AppStamp.Length && iteration < Size - 1)
+                            messageLength[iteration - (App.AppStamp.Length + 1)] = (byte)pixel.B;
                         else
                             version = (byte)pixel.B;
                         iteration++;

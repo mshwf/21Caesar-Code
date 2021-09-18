@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace StegaXam.Extensions
+namespace StegaXam
 {
     public static class ViewExtensions
     {

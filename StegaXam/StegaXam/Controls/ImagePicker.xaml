@@ -8,7 +8,7 @@
             <Grid x:Name="grdContainer">
                 <Image x:Name="imageIcon" VerticalOptions="CenterAndExpand">
                     <Image.Source>
-                        <FontImageSource FontFamily="FontAwesome5Regular" Glyph="image" Size="150"
+                        <FontImageSource x:Name="imageFontIcon" FontFamily="FontAwesome5Regular" Glyph="image" Size="150"
                                          Color="{StaticResource PrimaryLight}"/>
                     </Image.Source>
                 </Image>

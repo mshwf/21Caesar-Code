@@ -58,10 +58,12 @@ namespace StegaXam.Views
             catch (TooSmallImageException)
             {
                 await DisplayAlert("Oops!", "The image is too small for the message, choose bigger one.", "OK");
+                loader.IsRunning = false;
             }
             catch (Exception ex)
             {
                 await DisplayAlert("Exception", ex.ToString(), "OK");
+                loader.IsRunning = false;
             }
         }
 

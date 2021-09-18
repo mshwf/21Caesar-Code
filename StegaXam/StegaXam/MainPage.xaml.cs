@@ -1,6 +1,5 @@
 ﻿using StegaXam.Views;
 using System;
-using StegaXam.Extensions;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -44,8 +43,8 @@ namespace StegaXam
         }
         static Size? fSize = null;
         bool isExpanded = true;
-        static Color primaryLight = (Color)Application.Current.Resources["PrimaryLight"];
-        static Color secondary = (Color)Application.Current.Resources["Secondary"];
+        static readonly Color primaryLight = (Color)Application.Current.Resources["PrimaryLight"];
+        static readonly Color secondary = (Color)Application.Current.Resources["Secondary"];
         private void AnimateInfoSection()
         {
             if (fSize == null) return;

@@ -9,7 +9,7 @@ namespace StegaXam
 {
     public partial class App : Application
     {
-        internal static byte[] AppStamp = new byte[3] { 0x83, 0xfc, 0x0a };
+        internal static byte[] AppStamp = new byte[6] { 0x83, 0xfc, 0x0a, 0xcc, 0x1f, 0xda };
         public App()
         {
             InitializeComponent();

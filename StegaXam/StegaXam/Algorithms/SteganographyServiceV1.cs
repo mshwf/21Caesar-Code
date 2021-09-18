@@ -25,7 +25,7 @@ namespace StegaXam.Algorithms
                 hasPassword = true;
                 secretMessage = Crypto.EncryptStringAES(secretMessage, password);
             }
-            var header = HeaderMetaData.ToArray(hasPassword, secretMessage.Length, Version);
+            var header = HeaderMetaData.BuildHeader(hasPassword, secretMessage.Length, Version);
 
             if (metaImage.Width * metaImage.Height < secretMessage.Length + header.Length)
             {
