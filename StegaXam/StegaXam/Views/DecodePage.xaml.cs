@@ -1,6 +1,7 @@
 ﻿using StegaXam.Services;
 using StegaXam.ViewModels;
 using System;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -56,10 +57,13 @@ namespace StegaXam.Views
                 string secret = string.Empty;
                 try
                 {
-                    secret = algo.Decode(password);
+                    loader.IsRunning = true;
+                    secret = await Task.Run(() => algo.Decode(password));
+                    loader.IsRunning = false;
                 }
                 catch (IncorrectPasswordException)
                 {
+                    loader.IsRunning = false;
                     await DisplayAlert("Wrong password ✘", "You didn't enter the correct password", "OK");
                     return;
                 }
@@ -69,6 +73,7 @@ namespace StegaXam.Views
             }
             catch (Exception ex)
             {
+                loader.IsRunning = false;
                 await DisplayAlert("Exception", ex.ToString(), "OK");
             }
         }

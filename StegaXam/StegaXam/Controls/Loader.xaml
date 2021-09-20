@@ -3,10 +3,11 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        x:Class="StegaXam.Controls.Loader"
        IsVisible="False"
-       BackgroundColor="Transparent" Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+       BackgroundColor="Transparent" Padding="0"
+       HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
     <Frame Background="#b1b1b1b1" HorizontalOptions="Center" VerticalOptions="Center"
-               HasShadow="False"
-               CornerRadius="10" Padding="10">
+           HasShadow="False"
+           CornerRadius="10" Padding="10">
 
         <ActivityIndicator Color="LightPink" x:Name="loader"/>
     </Frame>

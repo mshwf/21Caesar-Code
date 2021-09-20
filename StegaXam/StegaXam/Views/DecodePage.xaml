@@ -45,5 +45,6 @@
                 </Button>
             </StackLayout>
         </Grid>
+        <controls:Loader x:Name="loader"/>
     </Grid>
 </ContentPage>
