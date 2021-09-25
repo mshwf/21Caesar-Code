@@ -1,0 +1,9 @@
+*Encode*
+
+in View
+	Get the message + password? + image
+	Call the base class:
+		Create MetaImage
+		Build header & embed into MetaImage
+		Call the Encoder, pass the MetaImage with the payload
+		the Encoder optionally encrypts and embed into the MetaImage
