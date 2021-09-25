@@ -1,4 +1,4 @@
-﻿using StegaXam.Services;
+﻿using StegaXam.Algorithms;
 using StegaXam.ViewModels;
 using System;
 using System.Threading.Tasks;

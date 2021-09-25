@@ -1,5 +1,4 @@
 ﻿using StegaXam.Models;
-using StegaXam.Services;
 using System;
 using Xamarin.Forms;
 
@@ -10,9 +9,9 @@ namespace StegaXam.Algorithms
         Hiding,
         Filling_With_Zeros
     };
-    class LSBServiceV2 : SteganographyAlgorithm
+    class LSBService : SteganographyAlgorithm
     {
-        public LSBServiceV2() : base(2)
+        public LSBService() : base(2)
         {
 
         }

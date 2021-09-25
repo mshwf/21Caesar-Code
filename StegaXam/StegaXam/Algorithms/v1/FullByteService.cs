@@ -1,14 +1,13 @@
 ﻿using StegaXam.Models;
-using StegaXam.Services;
 using System;
 using System.Text;
 using Xamarin.Forms;
 
 namespace StegaXam.Algorithms
 {
-    class SteganographyServiceV1 : SteganographyAlgorithm
+    class FullByteService : SteganographyAlgorithm
     {
-        public SteganographyServiceV1() : base(1) { }
+        public FullByteService() : base(1) { }
 
         public override byte[] Encode(byte[] imageData, string secretMessage, string password)
         {

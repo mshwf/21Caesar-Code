@@ -1,4 +1,5 @@
-﻿using StegaXam.Services;
+﻿using StegaXam.Algorithms;
+using StegaXam.Services;
 using System;
 using System.Threading.Tasks;
 using Xamarin.Essentials;

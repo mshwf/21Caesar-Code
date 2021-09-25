@@ -1,5 +1,4 @@
 ﻿using StegaXam.Algorithms;
-using StegaXam.Services;
 using Xamarin.Forms;
 
 [assembly: ExportFont("FontAwesome5Regular-400.otf", Alias = "FontAwesome5Regular")]
@@ -14,7 +13,7 @@ namespace StegaXam
         {
             InitializeComponent();
             MainPage = new NavigationPage(new MainPage());
-            SteganographyAlgorithm.Register(new SteganographyServiceV1());
+            SteganographyAlgorithm.Register(new FullByteService());
             //SteganographyAlgorithm.Register(new LSBServiceV2());
         }
 

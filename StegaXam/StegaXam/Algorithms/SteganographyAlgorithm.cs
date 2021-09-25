@@ -3,12 +3,13 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using Xamarin.Forms;
-using StegaXam.Algorithms;
 
-namespace StegaXam.Services
+namespace StegaXam.Algorithms
 {
     abstract class SteganographyAlgorithm
     {
+        public IEncoder Encrypter { get; set; }
+        public IDecoder Decrypter { get; set; }
         public static Dictionary<int, SteganographyAlgorithm> AlgorithmVersions =
             new Dictionary<int, SteganographyAlgorithm>();
         public HeaderMetaData Header { get; set; }
@@ -41,7 +42,16 @@ namespace StegaXam.Services
         }
 
         public byte Version { get; }
-        public abstract byte[] Encode(byte[] imageData, string secretMessage, string password);
+        public byte[] Encode(byte[] messageArray, string secretMessage, string password)
+        {
+            var header = HeaderMetaData.BuildHeader(hasPassword, secretMessage.Length, Version);
+            MetaImage.
+            Encrypter.Encode
+
+            
+
+        }
+        public abstract void Encodee(zzz)xsd
         public abstract string Decode(string password);
     }
 }
